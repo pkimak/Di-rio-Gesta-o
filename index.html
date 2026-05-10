@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diário da Gestação — Diabetes Gestacional</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --rose: #e8a0a0;
+    --rose-deep: #c97b7b;
+    --rose-pale: #f9eded;
+    --sage: #8aab96;
+    --sage-pale: #eef4f1;
+    --cream: #fdf8f4;
+    --text: #2d2020;
+    --text-muted: #7a6060;
+    --gold: #c4a265;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(180,100,100,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #c97b7b 0%, #d4956e 50%, #c4a265 100%);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: white;
+    position: relative;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  header h1 em {
+    font-style: italic;
+    font-weight: 400;
+    opacity: 0.9;
+    font-size: 1rem;
+    display: block;
+    margin-top: 4px;
+  }
+  .week-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.22);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: white;
+    border-bottom: 2px solid var(--rose-pale);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 14px 8px;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    position: relative;
+  }
+  .tab-btn.active { color: var(--rose-deep); }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 2px;
+    background: var(--rose-deep);
+    border-radius: 2px 2px 0 0;
+  }
+  .tab-btn .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .tab-content { display: none; padding: 20px 16px 40px; max-width: 640px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  /* DATE NAV */
+  .date-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .date-nav button {
+    background: var(--rose-pale);
+    border: none;
+    border-radius: 8px;
+    width: 34px; height: 34px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--rose-deep);
+    transition: background 0.2s;
+  }
+  .date-nav button:hover { background: var(--rose); color: white; }
+  .date-nav .date-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .date-nav .date-label small {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--rose-pale);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .progress-bar-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(200,120,120,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose-deep), var(--gold));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+  .progress-label { font-size: 0.78rem; color: var(--rose-deep); font-weight: 500; white-space: nowrap; }
+
+  /* ===== GLICEMIA RÁPIDA (nova - melhoria #6) ===== */
+  .quick-glucose-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--rose-pale);
+    position: relative;
+    overflow: hidden;
+  }
+  .quick-glucose-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--rose-deep), var(--gold));
+  }
+  .quick-glucose-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .quick-glucose-title {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  /* LEMBRETE DO HORÁRIO (melhoria #5) */
+  .glucose-reminder-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, var(--rose-deep), var(--gold));
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+  @keyframes pulse-badge {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.03); }
+  }
+  .glucose-reminder-badge.none {
+    background: var(--sage);
+    animation: none;
+  }
+  .quick-glucose-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .quick-glucose-item {
+    background: var(--rose-pale);
+    border-radius: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .quick-glucose-item:hover { border-color: var(--rose); }
+  .quick-glucose-item.active-moment {
+    background: #fff3f0;
+    border-color: var(--rose-deep);
+  }
+  .quick-glucose-item.has-value {
+    background: var(--sage-pale);
+    border-color: rgba(138,171,150,0.4);
+  }
+  .qg-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
+  .qg-input-row { display: flex; align-items: center; gap: 4px; }
+  .qg-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    outline: none;
+    min-width: 0;
+  }
+  .qg-unit { font-size: 0.65rem; color: var(--text-muted); flex-shrink: 0; }
+  .qg-status { font-size: 0.65rem; margin-top: 3px; font-weight: 500; }
+  .qg-status.ok { color: var(--sage); }
+  .qg-status.high { color: #c05050; }
+
+  /* SECTION */
+  .section { margin-bottom: 20px; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--rose-pale), transparent);
+  }
+
+  /* CHECKLIST */
+  .check-item {
+    background: white;
+    border-radius: 14px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1.5px solid transparent;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--rose-pale); box-shadow: var(--shadow); }
+  .check-item.done { background: var(--sage-pale); border-color: rgba(138,171,150,0.3); }
+  .check-item.done .item-label { color: var(--text-muted); text-decoration: line-through; }
+
+  .checkbox {
+    width: 22px; height: 22px;
+    border-radius: 7px;
+    border: 2px solid var(--rose);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    color: white;
+    background: transparent;
+  }
+  .done .checkbox { background: var(--sage); border-color: var(--sage); }
+
+  .item-label { font-size: 0.88rem; line-height: 1.45; font-weight: 400; }
+  .item-label strong { font-weight: 500; }
+  .item-tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tag-meal { background: #fef3e2; color: #b07c30; }
+  .tag-glucose { background: #fde8e8; color: #b04040; }
+  .tag-activity { background: #e8f4ec; color: #3a7a50; }
+  .tag-meds { background: #ede8f4; color: #5a3a8a; }
+  .tag-care { background: #e8f0f4; color: #2a5a7a; }
+  .tag-weekly { background: #f4ede8; color: #7a3a2a; }
+
+  /* GLUCOSE TAB */
+  .glucose-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-left: 4px solid var(--rose);
+  }
+  .glucose-card.ok { border-left-color: var(--sage); }
+  .glucose-card.high { border-left-color: #e07070; }
+  .glucose-title { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .glucose-row { display: flex; align-items: center; gap: 10px; }
+  .glucose-input {
+    flex: 1;
+    border: 1.5px solid var(--rose-pale);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .glucose-input:focus { border-color: var(--rose-deep); }
+  .glucose-unit { font-size: 0.78rem; color: var(--text-muted); }
+  .glucose-status { font-size: 0.72rem; font-weight: 500; margin-top: 6px; }
+  .glucose-meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* WEEKLY */
+  .week-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 1.5px solid var(--rose-pale);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 4px 8px 0;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .week-pill.active-week { background: var(--rose-deep); border-color: var(--rose-deep); color: white; }
+
+  .week-block {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .week-block-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--rose-deep);
+  }
+
+  /* NOTES */
+  .notes-area {
+    width: 100%;
+    border: 1.5px solid var(--rose-pale);
+    border-radius: 12px;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+    min-height: 80px;
+    transition: border-color 0.2s;
+    background: white;
+  }
+  .notes-area:focus { border-color: var(--rose-deep); }
+
+  /* RESET BTN */
+  .reset-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border: 1.5px dashed var(--rose-pale);
+    border-radius: 12px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--rose); color: var(--rose-deep); background: var(--rose-pale); }
+
+  /* INFO CARD */
+  .info-card {
+    background: linear-gradient(135deg, var(--rose-pale), #fff8f0);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--gold);
+  }
+  .info-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+  .info-card strong { color: var(--rose-deep); }
+
+  /* MOTIVATIONAL */
+  .motivation {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, white, var(--rose-pale));
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .motivation .big { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
+  .motivation p { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+
+  @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+  .done .checkbox { animation: pop 0.25s ease; }
+
+  /* INLINE FIELD */
+  .item-field-wrap { margin-top: 8px; }
+  .item-field-input {
+    width: 100%;
+    border: 1.5px solid rgba(138,171,150,0.5);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .item-field-input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(138,171,150,0.15); }
+  .item-field-input::placeholder { color: #b0a0a0; }
+
+  /* EMAIL CONFIG */
+  .email-config {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--rose-pale);
+  }
+  .email-config-title {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .email-input-row { display: flex; gap: 8px; align-items: center; }
+  .email-text-input {
+    flex: 1;
+    border: 1.5px solid var(--rose-pale);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .email-text-input:focus { border-color: var(--rose-deep); }
+  .email-save-btn {
+    background: var(--rose-deep);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .email-save-btn:hover { background: #b06060; }
+  .email-status { font-size: 0.72rem; color: var(--sage); margin-top: 6px; }
+
+  /* SEND / PDF BTNS */
+  .send-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--rose-deep), var(--gold));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .send-btn:hover { opacity: 0.88; }
+  .send-btn-secondary {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: var(--rose-deep);
+    border: 1.5px solid var(--rose-pale);
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .send-btn-secondary:hover { background: var(--rose-pale); }
+
+  /* PDF BTN (melhoria #4) */
+  .pdf-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: #5a3a8a;
+    border: 1.5px solid #ede8f4;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 20px;
+  }
+  .pdf-btn:hover { background: #f5f0fc; border-color: #c8b8e8; }
+
+  /* GOAL CARDS */
+  .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .goal-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    text-align: center;
+    border-top: 3px solid var(--rose-pale);
+  }
+  .goal-card.great { border-top-color: var(--sage); }
+  .goal-card.warn  { border-top-color: #e8c060; }
+  .goal-card.bad   { border-top-color: #d06060; }
+  .goal-card-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 600; line-height: 1; }
+  .goal-card-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .goal-card-sub   { font-size: 0.72rem; margin-top: 6px; font-weight: 500; }
+  .great .goal-card-sub { color: var(--sage); }
+  .warn  .goal-card-sub { color: #b09030; }
+  .bad   .goal-card-sub { color: #c05050; }
+
+  /* MINI TREND CHART */
+  .trend-wrap {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .trend-title { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .trend-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+  .trend-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .trend-bar { width: 100%; border-radius: 4px 4px 0 0; min-height: 3px; transition: height 0.4s ease; }
+  .trend-bar.ok   { background: var(--sage); }
+  .trend-bar.warn { background: #e8c060; }
+  .trend-bar.miss { background: #e0d0d0; }
+  .trend-bar.bad  { background: #d06060; }
+  .trend-label { font-size: 0.6rem; color: var(--text-muted); text-align: center; }
+
+  /* PERIOD PILLS */
+  .period-pills { display: flex; gap: 8px; margin-bottom: 16px; }
+  .period-pill {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rose-pale);
+    background: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .period-pill.active { background: var(--rose-deep); border-color: var(--rose-deep); color: white; }
+
+  /* AUTO BANNER */
+  .auto-banner {
+    background: linear-gradient(135deg, #eef4f1, #f9eded);
+    border-radius: 14px;
+    padding: 13px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .auto-banner-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .auto-banner strong { color: var(--text); display: block; font-size: 0.83rem; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>
+    ♡ Diário da Gestação
+    <em>Diabetes Gestacional — Guia do Parceiro</em>
+  </h1>
+  <div class="week-badge" id="currentWeekBadge">Carregando…</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('daily', this)">
+    <span class="tab-icon">📋</span>Hoje
+  </button>
+  <button class="tab-btn" onclick="switchTab('glucose', this)">
+    <span class="tab-icon">🩸</span>Glicemias
+  </button>
+  <button class="tab-btn" onclick="switchTab('weekly', this)">
+    <span class="tab-icon">📅</span>Semanas
+  </button>
+  <button class="tab-btn" onclick="switchTab('metas', this)">
+    <span class="tab-icon">📊</span>Metas
+  </button>
+  <button class="tab-btn" onclick="switchTab('guide', this)">
+    <span class="tab-icon">📖</span>Guia
+  </button>
+</div>
+
+<!-- ===== ABA HOJE ===== -->
+<div class="tab-content active" id="tab-daily">
+
+  <div class="date-nav">
+    <button onclick="changeDay(-1)">‹</button>
+    <div class="date-label">
+      <span id="dateDisplay"></span>
+      <small id="dateWeek"></small>
+    </div>
+    <button onclick="changeDay(1)">›</button>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0 / 0 feitos</div>
+  </div>
+
+  <!-- ATALHO GLICEMIA (melhoria #6 + lembrete #5) -->
+  <div class="quick-glucose-card">
+    <div class="quick-glucose-header">
+      <div class="quick-glucose-title">🩸 Glicemia rápida</div>
+      <div class="glucose-reminder-badge" id="reminderBadge">⏰ —</div>
+    </div>
+    <div class="quick-glucose-inputs" id="quickGlucoseInputs"></div>
+  </div>
+
+  <div id="dailyChecklist"></div>
+
+  <div class="section">
+    <div class="section-title">📝 Notas do dia</div>
+    <textarea class="notes-area" id="notesArea" placeholder="Anote algo importante do dia: sintomas, dúvidas, observações…" oninput="saveNotes()"></textarea>
+  </div>
+
+  <button class="reset-btn" onclick="resetDay()">↺ Resetar checklist do dia</button>
+</div>
+
+<!-- ===== ABA GLICEMIAS ===== -->
+<div class="tab-content" id="tab-glucose">
+
+  <div class="info-card">
+    <p><strong>Metas:</strong> Jejum &lt; 95 mg/dL · 1h pós-refeição &lt; 140 mg/dL · 2h pós-refeição &lt; 120 mg/dL</p>
+  </div>
+
+  <div id="glucoseCards"></div>
+
+  <div class="section" style="margin-top:16px;">
+    <div class="section-title">📝 Observações</div>
+    <textarea class="notes-area" id="glucoseNotes" placeholder="Atividade física, alimento diferente, sintomas…" oninput="saveGlucoseNotes()"></textarea>
+  </div>
+
+  <button class="reset-btn" onclick="resetGlucose()">↺ Limpar glicemias do dia</button>
+</div>
+
+<!-- ===== ABA SEMANAL ===== -->
+<div class="tab-content" id="tab-weekly">
+  <div id="weekPills" style="margin-bottom:16px; line-height:2.2;"></div>
+  <div id="weeklyContent"></div>
+</div>
+
+<!-- ===== ABA METAS ===== -->
+<div class="tab-content" id="tab-metas">
+
+  <div class="email-config">
+    <div class="email-config-title">✉️ Envio automático diário</div>
+    <div class="email-input-row">
+      <input class="email-text-input" type="email" id="emailInput" placeholder="seu@email.com" oninput="saveEmail()" />
+      <button class="email-save-btn" onclick="sendEmailNow('daily')">Enviar agora</button>
+    </div>
+    <div class="email-status" id="emailStatus"></div>
+  </div>
+
+  <div class="auto-banner">
+    <div class="auto-banner-icon">🔔</div>
+    <div>
+      <strong>Envio automático ativado</strong>
+      O resumo do dia anterior é preparado toda manhã ao abrir o app. Configure o e-mail acima e clique em "Enviar agora" ou use os botões abaixo.
+    </div>
+  </div>
+
+  <div class="period-pills">
+    <div class="period-pill active" onclick="setPeriod('week')" id="pill-week">7 dias</div>
+    <div class="period-pill" onclick="setPeriod('month')" id="pill-month">30 dias</div>
+    <div class="period-pill" onclick="setPeriod('all')" id="pill-all">Tudo</div>
+  </div>
+
+  <div class="goal-grid" id="goalGrid"></div>
+
+  <div class="trend-wrap">
+    <div class="trend-title">📈 Glicemias — últimos dias</div>
+    <div class="trend-chart" id="glucoseTrend"></div>
+  </div>
+
+  <div class="trend-wrap">
+    <div class="trend-title">✅ Checklist cumprido — % por dia</div>
+    <div class="trend-chart" id="checklistTrend"></div>
+  </div>
+
+  <button class="send-btn" onclick="sendEmailNow('daily')">📧 Enviar resumo de hoje</button>
+  <button class="send-btn-secondary" onclick="sendEmailNow('period')">📊 Enviar consolidado do período</button>
+  <!-- EXPORT PDF (melhoria #4) -->
+  <button class="pdf-btn" onclick="exportPDF()">📄 Exportar PDF semanal para consulta</button>
+</div>
+
+<!-- ===== ABA GUIA ===== -->
+<div class="tab-content" id="tab-guide">
+
+  <div class="info-card">
+    <p><strong>Hipoglicemia — Sinais de alerta:</strong> tremor, suor frio, tontura, fraqueza, palidez. Ação imediata: ofereça 1 copo de suco de laranja ou 1 col. sopa de açúcar dissolvida em água.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🥗 Orientações Alimentares</div>
+    <div class="week-block">
+      <ul style="font-size:0.85rem; line-height:1.8; color:var(--text); padding-left:16px;">
+        <li>6 refeições por dia (3 principais + 3 lanches)</li>
+        <li>Intervalo máximo de 3h entre refeições</li>
+        <li>Carboidratos distribuídos, nunca concentrados em uma refeição</li>
+        <li>Preferir integrais: arroz integral, pão integral, aveia</li>
+        <li>Evitar: sucos de frutas, refrigerantes, mel, açúcar, doces</li>
+        <li>Frutas: máx. 1 porção por vez, com casca se possível</li>
+        <li>Incluir proteína em todas as refeições</li>
+        <li>Fibras ajudam a controlar a glicemia (verduras, legumes)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🚶 Atividade Física</div>
+    <div class="week-block">
+      <ul style="font-size:0.85rem; line-height:1.8; color:var(--text); padding-left:16px;">
+        <li>20–30 min de caminhada leve após as refeições principais</li>
+        <li>Reduz a glicose pós-prandial de forma muito eficaz</li>
+        <li>Sempre com autorização médica</li>
+        <li>Evitar exercícios em jejum</li>
+        <li>Parar se: tontura, dor, sangramento, contrações</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">👩‍⚕️ Equipe de Saúde</div>
+    <div class="week-block">
+      <ul style="font-size:0.85rem; line-height:1.8; color:var(--text); padding-left:16px;">
+        <li><strong>Obstetra:</strong> coordena o caso, monitora bebê</li>
+        <li><strong>Endocrinologista:</strong> controle metabólico e insulina</li>
+        <li><strong>Nutricionista:</strong> plano alimentar individualizado</li>
+        <li><strong>Educador em diabetes:</strong> uso do glicosímetro</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💊 Se usar Insulina</div>
+    <div class="week-block">
+      <ul style="font-size:0.85rem; line-height:1.8; color:var(--text); padding-left:16px;">
+        <li>Cerca de 20–30% das pacientes precisam — não é fracasso</li>
+        <li>Aprender a técnica de aplicação junto com ela</li>
+        <li>Guardar na geladeira (não congelar)</li>
+        <li>Nunca alterar dose sem orientação médica</li>
+        <li>Ter sempre fonte de açúcar disponível (prevenção de hipo)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let currentDate = new Date();
+currentDate.setHours(0, 0, 0, 0);
+
+// Referência: 06/05/2026 (quarta-feira) = 28 semanas exatas
+// Quartas-feiras são as semanas "fechadas"
+const BASE_WEEK = 28;
+const BASE_DAYS = 0;
+const BASE_DATE = new Date(2026, 4, 6); // mês 4 = maio (0-indexed)
+
+function getDateKey(d) { return d.toISOString().slice(0, 10); }
+function loadState(key, def) { try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
+function saveState(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+// ===== CHECKLIST DATA =====
+const dailySections = [
+  {
+    title: '🌅 Manhã',
+    items: [
+      { id: 'g_jejum', label: '<strong>Glicemia em jejum</strong> (antes de comer)', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
+      { id: 'cafe', label: 'Café da manhã (carboidrato + proteína + fibra)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'lanche1', label: 'Lanche da manhã (até 3h após café)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'g_cafe', label: '<strong>Glicemia 1h após café da manhã</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
+    ]
+  },
+  {
+    title: '☀️ Tarde',
+    items: [
+      { id: 'almoco', label: 'Almoço (prato balanceado)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'g_1h_almoco', label: '<strong>Glicemia 1h após almoço</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
+      { id: 'caminhada1', label: 'Caminhada 20–30 min após almoço', tag: 'activity', field: { placeholder: 'Duração / observação' } },
+      { id: 'lanche2', label: 'Lanche da tarde', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+    ]
+  },
+  {
+    title: '🌙 Noite',
+    items: [
+      { id: 'jantar', label: 'Jantar (carboidrato moderado)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'g_1h_jantar', label: '<strong>Glicemia 1h após jantar</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
+      { id: 'caminhada2', label: 'Caminhada leve após jantar', tag: 'activity', field: { placeholder: 'Duração / observação' } },
+      { id: 'lanche3', label: 'Ceia leve (evitar hipoglicemia noturna)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+    ]
+  },
+  {
+    title: '💊 Medicação & Cuidados',
+    items: [
+      { id: 'insulina', label: 'Insulina aplicada (se prescrito)', tag: 'meds', field: { placeholder: 'Dose / horário' } },
+      { id: 'agua', label: 'Hidratação adequada (≥ 2L de água)', tag: 'care', field: { placeholder: 'Quantos ml aproximadamente?' } },
+      { id: 'bem_estar', label: 'Verificar bem-estar emocional dela', tag: 'care', field: { placeholder: 'Como ela está?' } },
+    ]
+  }
+];
+
+const tagLabels = { meal: 'Refeição', glucose: 'Glicemia', activity: 'Atividade', meds: 'Medicação', care: 'Cuidado', weekly: 'Semanal' };
+const tagClasses = { meal: 'tag-meal', glucose: 'tag-glucose', activity: 'tag-activity', meds: 'tag-meds', care: 'tag-care', weekly: 'tag-weekly' };
+
+// ===== GLUCOSE MOMENTS =====
+const glucoseMoments = [
+  { id: 'g1', label: 'Jejum', max: 95, hint: 'Meta: < 95 mg/dL', shortLabel: 'Jejum' },
+  { id: 'g2', label: '1h após café', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-café' },
+  { id: 'g4', label: '1h após almoço', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-almoço' },
+  { id: 'g5', label: '1h após jantar', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-jantar' },
+];
+
+// ===== MELHORIA #5: LEMBRETE BASEADO NO HORÁRIO =====
+function getCurrentGlucoseReminder() {
+  const h = new Date().getHours();
+  const m = new Date().getMinutes();
+  const totalMin = h * 60 + m;
+
+  // Horários aproximados: 6–8h jejum, 8–10h pós-café, 12–14h pós-almoço, 19–21h pós-jantar
+  if (totalMin >= 360 && totalMin < 480)  return { text: '⏰ Hora do jejum', idx: 0 };
+  if (totalMin >= 480 && totalMin < 660)  return { text: '⏰ Pós-café', idx: 1 };
+  if (totalMin >= 720 && totalMin < 900)  return { text: '⏰ Pós-almoço', idx: 2 };
+  if (totalMin >= 1140 && totalMin < 1320) return { text: '⏰ Pós-jantar', idx: 3 };
+  return { text: '✓ Sem medição agora', idx: -1 };
+}
+
+// ===== MELHORIA #6: RENDERIZAR ATALHO DE GLICEMIA =====
+function renderQuickGlucose() {
+  const key = getDateKey(currentDate);
+  const vals = loadState('glucose_' + key, {});
+  const reminder = getCurrentGlucoseReminder();
+
+  // Badge
+  const badge = document.getElementById('reminderBadge');
+  badge.textContent = reminder.text;
+  badge.className = 'glucose-reminder-badge' + (reminder.idx === -1 ? ' none' : '');
+
+  // Grid de inputs rápidos
+  const html = glucoseMoments.map((m, i) => {
+    const val = vals[m.id] || '';
+    const numVal = parseFloat(val);
+    let statusHtml = '';
+    if (val) {
+      statusHtml = numVal <= m.max
+        ? `<div class="qg-status ok">✓ na meta</div>`
+        : `<div class="qg-status high">⚠ acima</div>`;
+    }
+    const isActive = reminder.idx === i;
+    const hasVal = !!val;
+    return `
+      <div class="quick-glucose-item ${isActive ? 'active-moment' : ''} ${hasVal ? 'has-value' : ''}">
+        <div class="qg-label">${m.shortLabel}</div>
+        <div class="qg-input-row">
+          <input
+            class="qg-input"
+            type="number"
+            placeholder="—"
+            value="${val}"
+            min="40" max="400"
+            oninput="saveQuickGlucose('${m.id}', this.value)"
+          />
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        ${statusHtml}
+      </div>`;
+  }).join('');
+
+  document.getElementById('quickGlucoseInputs').innerHTML = html;
+}
+
+function saveQuickGlucose(id, val) {
+  const key = getDateKey(currentDate);
+  const vals = loadState('glucose_' + key, {});
+  vals[id] = val;
+  saveState('glucose_' + key, vals);
+  // Atualiza aba glicemias se estiver visível
+  if (document.getElementById('tab-glucose').classList.contains('active')) renderGlucose();
+  setTimeout(renderQuickGlucose, 80);
+}
+
+// ===== RENDERIZAR DIÁRIO =====
+function renderDaily() {
+  const key = getDateKey(currentDate);
+  const checked = loadState('daily_' + key, {});
+  const fieldVals = loadState('daily_fields_' + key, {});
+  const notes = loadState('notes_' + key, '');
+
+  // Data
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  document.getElementById('dateDisplay').textContent = currentDate.toLocaleDateString('pt-BR', opts);
+
+  // Semana gestacional
+  const diffDays = Math.floor((currentDate - BASE_DATE) / 86400000);
+  const totalDays = BASE_WEEK * 7 + BASE_DAYS + diffDays;
+  const weeks = Math.floor(totalDays / 7);
+  const days = totalDays % 7;
+  document.getElementById('dateWeek').textContent = `${weeks} sem. e ${days} dias de gestação`;
+  document.getElementById('currentWeekBadge').textContent = `${weeks} semanas e ${days} dias`;
+
+  // Progress
+  const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+  const doneCount = allIds.filter(id => checked[id]).length;
+  document.getElementById('progressFill').style.width = (doneCount / allIds.length * 100) + '%';
+  document.getElementById('progressLabel').textContent = `${doneCount} / ${allIds.length} feitos`;
+
+  // Notes
+  document.getElementById('notesArea').value = notes;
+
+  // Checklist
+  const html = dailySections.map(section => `
+    <div class="section">
+      <div class="section-title">${section.title}</div>
+      ${section.items.map(item => {
+        const isDone = !!checked[item.id];
+        const fVal = fieldVals[item.id] || '';
+        const fieldHtml = isDone && item.field ? `
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input
+              class="item-field-input"
+              type="${item.field.type || 'text'}"
+              placeholder="${item.field.placeholder}"
+              value="${fVal}"
+              oninput="saveFieldVal('${item.id}', this.value)"
+            />
+          </div>` : '';
+        return `
+        <div class="check-item ${isDone ? 'done' : ''}" onclick="toggleItem('${item.id}')">
+          <div class="checkbox">${isDone ? '✓' : ''}</div>
+          <div style="flex:1">
+            <div class="item-label">${item.label}</div>
+            ${fieldHtml}
+          </div>
+          <span class="item-tag ${tagClasses[item.tag]}">${tagLabels[item.tag]}</span>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+
+  document.getElementById('dailyChecklist').innerHTML = html;
+  renderQuickGlucose();
+}
+
+function toggleItem(id) {
+  const key = getDateKey(currentDate);
+  const checked = loadState('daily_' + key, {});
+  checked[id] = !checked[id];
+  saveState('daily_' + key, checked);
+  renderDaily();
+  if (checked[id]) {
+    setTimeout(() => {
+      const input = document.querySelector(`.item-field-input[oninput*="${id}"]`);
+      if (input) input.focus();
+    }, 50);
+  }
+}
+
+function saveFieldVal(id, val) {
+  const key = getDateKey(currentDate);
+  const fieldVals = loadState('daily_fields_' + key, {});
+  fieldVals[id] = val;
+  saveState('daily_fields_' + key, fieldVals);
+}
+
+function saveNotes() {
+  const key = getDateKey(currentDate);
+  saveState('notes_' + key, document.getElementById('notesArea').value);
+}
+
+function resetDay() {
+  if (!confirm('Resetar o checklist de hoje?')) return;
+  const key = getDateKey(currentDate);
+  saveState('daily_' + key, {});
+  saveState('daily_fields_' + key, {});
+  renderDaily();
+}
+
+function changeDay(delta) {
+  currentDate.setDate(currentDate.getDate() + delta);
+  renderDaily();
+}
+
+// ===== GLICEMIAS =====
+function renderGlucose() {
+  const key = getDateKey(currentDate);
+  const vals = loadState('glucose_' + key, {});
+  const notes = loadState('glucoseNotes_' + key, '');
+
+  const html = glucoseMoments.map(m => {
+    const val = vals[m.id] || '';
+    const numVal = parseFloat(val);
+    let statusHtml = '', cls = '';
+    if (val) {
+      if (numVal <= m.max) {
+        cls = 'ok';
+        statusHtml = `<div class="glucose-status" style="color:var(--sage)">✓ Dentro da meta</div>`;
+      } else {
+        cls = 'high';
+        statusHtml = `<div class="glucose-status" style="color:#c05050">⚠ Acima da meta — comunicar equipe médica</div>`;
+      }
+    }
+    return `
+      <div class="glucose-card ${cls}">
+        <div class="glucose-title">${m.label}</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="${val}" min="40" max="400"
+            oninput="saveGlucose('${m.id}', this.value)" />
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        ${statusHtml}
+        <div class="glucose-meta">${m.hint}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('glucoseCards').innerHTML = html;
+  document.getElementById('glucoseNotes').value = notes;
+}
+
+function saveGlucose(id, val) {
+  const key = getDateKey(currentDate);
+  const vals = loadState('glucose_' + key, {});
+  vals[id] = val;
+  saveState('glucose_' + key, vals);
+  renderQuickGlucose();
+  setTimeout(renderGlucose, 100);
+}
+
+function saveGlucoseNotes() {
+  const key = getDateKey(currentDate);
+  saveState('glucoseNotes_' + key, document.getElementById('glucoseNotes').value);
+}
+
+function resetGlucose() {
+  if (!confirm('Limpar glicemias do dia?')) return;
+  const key = getDateKey(currentDate);
+  saveState('glucose_' + key, {});
+  renderGlucose();
+  renderQuickGlucose();
+}
+
+// ===== SEMANAL =====
+const weeklyData = [
+  {
+    range: '28–30', label: '28–30 sem.', title: '🏥 Organização Inicial',
+    items: [
+      { id: 'w1', text: 'Retorno com obstetra para discutir diagnóstico e encaminhamentos' },
+      { id: 'w2', text: 'Agendar endocrinologista' },
+      { id: 'w3', text: 'Agendar nutricionista especializada em gestação' },
+      { id: 'w4', text: 'Adquirir glicosímetro (verificar cobertura do plano)' },
+      { id: 'w5', text: 'Aprender junto a usar o glicosímetro' },
+      { id: 'w6', text: 'Montar caderneta ou planilha de registro de glicemias' },
+      { id: 'w7', text: 'Reorganizar a despensa (retirar ultraprocessados, sucos, biscoitos)' },
+      { id: 'w8', text: 'Ir junto à primeira consulta com nutricionista' },
+    ]
+  },
+  {
+    range: '30–34', label: '30–34 sem.', title: '🔄 Rotina & Adaptação',
+    items: [
+      { id: 'w9', text: 'Caminhar com ela 20–30 min após o jantar — rotina diária' },
+      { id: 'w10', text: 'Ajudar a manter horários das 6 refeições sem pular' },
+      { id: 'w11', text: 'Acompanhar registros glicêmicos e levar às consultas' },
+      { id: 'w12', text: 'Se iniciou insulina: aprender a técnica de aplicação juntos' },
+      { id: 'w13', text: 'Saber reconhecer sinais de hipoglicemia (tremor, suor frio, tontura)' },
+      { id: 'w14', text: 'Sempre ter fonte de açúcar disponível em casa' },
+      { id: 'w15', text: 'Verificar agendamento de USG de crescimento fetal' },
+    ]
+  },
+  {
+    range: '34–37', label: '34–37 sem.', title: '⚠️ Atenção Redobrada',
+    items: [
+      { id: 'w16', text: 'Consultas mais frequentes (a cada 1–2 semanas)' },
+      { id: 'w17', text: 'Cardiotocografia (CTG) se solicitado — monitorar bem-estar fetal' },
+      { id: 'w18', text: 'Confirmar via de parto com obstetra' },
+      { id: 'w19', text: 'Verificar se hospital está ciente do diagnóstico' },
+      { id: 'w20', text: 'Preparar mala maternidade (prever monitoramento neonatal)' },
+    ]
+  },
+  {
+    range: '37–40', label: '37–40 sem.', title: '🍼 Preparação para o Parto',
+    items: [
+      { id: 'w21', text: 'DG controlada: parto pode aguardar até 39–40 semanas' },
+      { id: 'w22', text: 'Confirmar hospital com neonatologista disponível' },
+      { id: 'w23', text: 'Bebê precisará de glicemia aferida ao nascer' },
+      { id: 'w24', text: 'Manter dieta e monitoramento até o dia do parto' },
+      { id: 'w25', text: 'Plano de parto definido com obstetra' },
+    ]
+  },
+  {
+    range: 'Pós-parto', label: 'Pós-parto', title: '🌷 Pós-Parto',
+    items: [
+      { id: 'w26', text: 'TOTG (curva glicêmica) 6–12 semanas após o parto' },
+      { id: 'w27', text: 'Incentivar e apoiar amamentação (ajuda a normalizar glicemia)' },
+      { id: 'w28', text: 'Acompanhamento metabólico de longo prazo para ela' },
+      { id: 'w29', text: 'Manter hábitos saudáveis adquiridos — reduz risco de DM tipo 2' },
+    ]
+  }
+];
+
+let activeWeek = '28–30';
+
+function renderWeekly() {
+  const pillsHtml = weeklyData.map(w => `
+    <span class="week-pill ${activeWeek === w.range ? 'active-week' : ''}" onclick="setWeek('${w.range}')">${w.label}</span>
+  `).join('');
+  document.getElementById('weekPills').innerHTML = pillsHtml;
+
+  const w = weeklyData.find(x => x.range === activeWeek);
+  const checked = loadState('weekly_' + w.range, {});
+  const allDone = w.items.every(i => checked[i.id]);
+
+  let html = `<div class="week-block"><div class="week-block-title">${w.title}</div>`;
+  html += w.items.map(item => `
+    <div class="check-item ${checked[item.id] ? 'done' : ''}" onclick="toggleWeekly('${w.range}','${item.id}')">
+      <div class="checkbox">${checked[item.id] ? '✓' : ''}</div>
+      <div class="item-label">${item.text}</div>
+    </div>
+  `).join('');
+  html += `</div>`;
+
+  if (allDone) {
+    html += `<div class="motivation"><div class="big">🎉</div><p>Todas as tarefas desta fase concluídas! Incrível!</p></div>`;
+  }
+
+  document.getElementById('weeklyContent').innerHTML = html;
+}
+
+function setWeek(range) { activeWeek = range; renderWeekly(); }
+
+function toggleWeekly(range, id) {
+  const checked = loadState('weekly_' + range, {});
+  checked[id] = !checked[id];
+  saveState('weekly_' + range, checked);
+  renderWeekly();
+}
+
+// ===== TABS =====
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+
+  if (name === 'glucose') renderGlucose();
+  if (name === 'weekly') renderWeekly();
+  if (name === 'metas') renderMetas();
+}
+
+// ===== EMAIL =====
+function saveEmail() {
+  saveState('userEmail', document.getElementById('emailInput').value);
+}
+
+function loadEmail() {
+  const el = document.getElementById('emailInput');
+  if (el) el.value = loadState('userEmail', '');
+}
+
+function getDateRange(period) {
+  const days = period === 'week' ? 7 : period === 'month' ? 30 : 90;
+  const dates = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function buildDailySummaryText(dateObj) {
+  const key = getDateKey(dateObj);
+  const checked = loadState('daily_' + key, {});
+  const fieldVals = loadState('daily_fields_' + key, {});
+  const glucose = loadState('glucose_' + key, {});
+  const notes = loadState('notes_' + key, '');
+  const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+  const doneCount = allIds.filter(id => checked[id]).length;
+  const pct = Math.round(doneCount / allIds.length * 100);
+
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  const dateStr = dateObj.toLocaleDateString('pt-BR', opts);
+  const diffDays = Math.floor((dateObj - BASE_DATE) / 86400000);
+  const totalDays = BASE_WEEK * 7 + BASE_DAYS + diffDays;
+  const weeks = Math.floor(totalDays / 7);
+  const days2 = totalDays % 7;
+
+  const glucoseLines = glucoseMoments.map(m => {
+    const v = glucose[m.id];
+    if (!v) return `  • ${m.label}: não registrado`;
+    const ok = parseFloat(v) <= m.max;
+    return `  • ${m.label}: ${v} mg/dL ${ok ? '✓' : '⚠ ACIMA DA META'}`;
+  }).join('\n');
+
+  const fieldLines = dailySections.flatMap(s => s.items.map(i => {
+    const v = fieldVals[i.id];
+    if (!v) return null;
+    const label = i.label.replace(/<[^>]+>/g, '');
+    return `  • ${label}: ${v}`;
+  })).filter(Boolean).join('\n');
+
+  return `╔══════════════════════════════════════╗
+  RESUMO DO DIA — Diabetes Gestacional
+╚══════════════════════════════════════╝
+
+📅 ${dateStr}
+🤰 ${weeks} semanas e ${days2} dias de gestação
+
+━━━ CHECKLIST ━━━
+✅ ${doneCount}/${allIds.length} itens concluídos (${pct}%)
+
+━━━ GLICEMIAS ━━━
+${glucoseLines}
+
+━━━ REGISTROS DO DIA ━━━
+${fieldLines || '  (nenhum registro adicional)'}
+
+━━━ NOTAS ━━━
+${notes || '  (sem notas)'}
+
+──────────────────────────────────────
+Enviado pelo Diário da Gestação ♡`;
+}
+
+function buildPeriodSummaryText(period) {
+  const dates = getDateRange(period);
+  const periodLabel = period === 'week' ? '7 dias' : period === 'month' ? '30 dias' : 'todo o período';
+  let glucoseOk = 0, glucoseTotal = 0, checkTotal = 0, checkDone = 0;
+  const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+
+  const dayLines = dates.map(d => {
+    const key = getDateKey(d);
+    const checked = loadState('daily_' + key, {});
+    const glucose = loadState('glucose_' + key, {});
+    const done = allIds.filter(id => checked[id]).length;
+    checkDone += done; checkTotal += allIds.length;
+    const opts = { day: 'numeric', month: 'short' };
+    const ds = d.toLocaleDateString('pt-BR', opts);
+    const pct = Math.round(done / allIds.length * 100);
+
+    const gLines = glucoseMoments.map(m => {
+      const v = glucose[m.id];
+      if (!v) return null;
+      glucoseTotal++;
+      const ok = parseFloat(v) <= m.max;
+      if (ok) glucoseOk++;
+      return `    ${m.label}: ${v} mg/dL ${ok ? '✓' : '⚠'}`;
+    }).filter(Boolean).join('\n');
+
+    return `📅 ${ds} — checklist ${pct}%\n${gLines || '    (sem glicemias registradas)'}`;
+  }).join('\n\n');
+
+  const gPct = glucoseTotal ? Math.round(glucoseOk / glucoseTotal * 100) : 0;
+  const cPct = checkTotal ? Math.round(checkDone / checkTotal * 100) : 0;
+
+  return `╔══════════════════════════════════════╗
+  CONSOLIDADO — ${periodLabel.toUpperCase()}
+╚══════════════════════════════════════╝
+
+━━━ RESUMO GERAL ━━━
+✅ Checklist médio: ${cPct}%
+🩸 Glicemias dentro da meta: ${gPct}% (${glucoseOk}/${glucoseTotal})
+
+━━━ DETALHE POR DIA ━━━
+${dayLines}
+
+──────────────────────────────────────
+Enviado pelo Diário da Gestação ♡`;
+}
+
+function sendEmailNow(type) {
+  const email = loadState('userEmail', '');
+  if (!email) {
+    alert('Configure o e-mail de destino primeiro!');
+    document.getElementById('emailInput').focus();
+    return;
+  }
+  let subject, body;
+  if (type === 'daily') {
+    const d = new Date(currentDate);
+    subject = encodeURIComponent(`Diário Gestação — ${d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`);
+    body = encodeURIComponent(buildDailySummaryText(d));
+  } else {
+    subject = encodeURIComponent(`Consolidado Gestação — ${activePeriod === 'week' ? '7 dias' : activePeriod === 'month' ? '30 dias' : 'Histórico'}`);
+    body = encodeURIComponent(buildPeriodSummaryText(activePeriod));
+  }
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  saveState('lastEmailSent', getDateKey(new Date()));
+}
+
+// ===== MELHORIA #4: EXPORT PDF =====
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  const dates = getDateRange('week');
+  const pageW = 210;
+  const margin = 16;
+  const contentW = pageW - margin * 2;
+  let y = 20;
+
+  // Paleta em hex RGB para jsPDF
+  const rose = [201, 123, 123];
+  const sage = [138, 171, 150];
+  const gold = [196, 162, 101];
+  const textMuted = [122, 96, 96];
+  const textDark = [45, 32, 32];
+  const red = [192, 80, 80];
+
+  function setColor(rgb) { doc.setTextColor(...rgb); }
+  function drawLine(x1, y1, x2, y2, rgb, lw = 0.3) {
+    doc.setDrawColor(...rgb);
+    doc.setLineWidth(lw);
+    doc.line(x1, y1, x2, y2);
+  }
+
+  // Cabeçalho
+  doc.setFillColor(...rose);
+  doc.roundedRect(margin, y - 8, contentW, 22, 4, 4, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Diario da Gestacao - Diabetes Gestacional', margin + 6, y + 2);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Resumo semanal para consulta medica', margin + 6, y + 8);
+  y += 22;
+
+  // Calcular estatísticas gerais
+  const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+  let totalGOk = 0, totalGAll = 0, totalCDone = 0;
+
+  dates.forEach(d => {
+    const key = getDateKey(d);
+    const checked = loadState('daily_' + key, {});
+    const glucose = loadState('glucose_' + key, {});
+    totalCDone += allIds.filter(id => checked[id]).length;
+    glucoseMoments.forEach(m => {
+      const v = glucose[m.id];
+      if (v) { totalGAll++; if (parseFloat(v) <= m.max) totalGOk++; }
+    });
+  });
+
+  const gPct = totalGAll ? Math.round(totalGOk / totalGAll * 100) : null;
+  const cPct = Math.round(totalCDone / (allIds.length * dates.length) * 100);
+
+  // Cards de resumo
+  y += 6;
+  const cardW = (contentW - 8) / 2;
+
+  function drawSummaryCard(x, cy, label, value, sub, color) {
+    doc.setFillColor(250, 245, 245);
+    doc.roundedRect(x, cy, cardW, 22, 3, 3, 'F');
+    doc.setDrawColor(...color);
+    doc.setLineWidth(0.8);
+    doc.line(x, cy, x, cy + 22);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    setColor(color);
+    doc.text(value, x + cardW / 2, cy + 11, { align: 'center' });
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    setColor(textMuted);
+    doc.text(label.toUpperCase(), x + cardW / 2, cy + 16, { align: 'center' });
+    doc.setFontSize(6);
+    setColor(color);
+    doc.text(sub, x + cardW / 2, cy + 20, { align: 'center' });
+  }
+
+  drawSummaryCard(margin, y, 'Glicemias na meta', gPct !== null ? gPct + '%' : '--', gPct >= 80 ? 'Otimo controle' : gPct >= 60 ? 'Atencao' : 'Ver medico', gPct >= 80 ? sage : gPct >= 60 ? gold : red);
+  drawSummaryCard(margin + cardW + 8, y, 'Checklist cumprido', cPct + '%', cPct >= 80 ? 'Excelente!' : cPct >= 60 ? 'Pode melhorar' : 'Vamos nessa!', cPct >= 80 ? sage : cPct >= 60 ? gold : red);
+  y += 28;
+
+  // Tabela de glicemias
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  setColor(rose);
+  doc.text('GLICEMIAS DA SEMANA (mg/dL)', margin, y);
+  drawLine(margin, y + 1.5, margin + contentW, y + 1.5, rose, 0.4);
+  y += 6;
+
+  // Header da tabela
+  const cols = ['Data', ...glucoseMoments.map(m => m.shortLabel)];
+  const colWidths = [30, ...Array(4).fill((contentW - 30) / 4)];
+  let cx = margin;
+
+  doc.setFillColor(249, 237, 237);
+  doc.rect(margin, y - 4, contentW, 7, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  cols.forEach((col, i) => {
+    setColor(textDark);
+    doc.text(col, cx + colWidths[i] / 2, y, { align: 'center' });
+    cx += colWidths[i];
+  });
+  y += 4;
+
+  // Linhas de dados
+  dates.forEach((d, rowIdx) => {
+    const key = getDateKey(d);
+    const glucose = loadState('glucose_' + key, {});
+    const opts = { day: '2-digit', month: '2-digit' };
+    const dateStr = d.toLocaleDateString('pt-BR', opts);
+
+    if (y > 270) { doc.addPage(); y = 20; }
+
+    if (rowIdx % 2 === 0) {
+      doc.setFillColor(253, 248, 244);
+      doc.rect(margin, y - 3.5, contentW, 7, 'F');
+    }
+
+    cx = margin;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    setColor(textDark);
+    doc.text(dateStr, cx + colWidths[0] / 2, y + 0.5, { align: 'center' });
+    cx += colWidths[0];
+
+    glucoseMoments.forEach((m, i) => {
+      const v = glucose[m.id];
+      if (v) {
+        const ok = parseFloat(v) <= m.max;
+        setColor(ok ? sage : red);
+        doc.setFont('helvetica', ok ? 'normal' : 'bold');
+        doc.text(`${v}${ok ? '' : '!'}`, cx + colWidths[i + 1] / 2, y + 0.5, { align: 'center' });
+      } else {
+        setColor(textMuted);
+        doc.setFont('helvetica', 'normal');
+        doc.text('—', cx + colWidths[i + 1] / 2, y + 0.5, { align: 'center' });
+      }
+      cx += colWidths[i + 1];
+    });
+
+    drawLine(margin, y + 4, margin + contentW, y + 4, [220, 210, 210], 0.2);
+    y += 8;
+  });
+
+  // Metas de referência
+  y += 4;
+  doc.setFillColor(238, 244, 241);
+  doc.roundedRect(margin, y, contentW, 12, 2, 2, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(6.5);
+  setColor(sage);
+  doc.text('METAS:', margin + 4, y + 5);
+  doc.setFont('helvetica', 'normal');
+  setColor(textDark);
+  doc.text('Jejum < 95  |  1h pos-refeicao < 140  |  2h pos-refeicao < 120  (mg/dL)', margin + 20, y + 5);
+  doc.setFontSize(5.5);
+  setColor(textMuted);
+  doc.text('! = acima da meta', margin + 4, y + 10);
+  y += 18;
+
+  // Notas da semana
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  setColor(rose);
+  doc.text('NOTAS DA SEMANA', margin, y);
+  drawLine(margin, y + 1.5, margin + contentW, y + 1.5, rose, 0.4);
+  y += 7;
+
+  dates.forEach(d => {
+    const key = getDateKey(d);
+    const notes = loadState('notes_' + key, '');
+    if (!notes) return;
+    if (y > 270) { doc.addPage(); y = 20; }
+    const opts = { weekday: 'short', day: '2-digit', month: '2-digit' };
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    setColor(textDark);
+    doc.text(d.toLocaleDateString('pt-BR', opts) + ':', margin, y);
+    doc.setFont('helvetica', 'normal');
+    setColor(textMuted);
+    const lines = doc.splitTextToSize(notes, contentW - 24);
+    doc.text(lines, margin + 24, y);
+    y += lines.length * 4 + 3;
+  });
+
+  // Rodapé
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(6);
+    setColor(textMuted);
+    doc.text(`Diario da Gestacao - Diabetes Gestacional  |  Pagina ${i}/${pageCount}`, pageW / 2, 292, { align: 'center' });
+  }
+
+  const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  doc.save(`Diario-Gestacao-${hoje.replace(/\//g, '-')}.pdf`);
+}
+
+// ===== METAS =====
+let activePeriod = 'week';
+
+function setPeriod(p) {
+  activePeriod = p;
+  document.querySelectorAll('.period-pill').forEach(el => el.classList.remove('active'));
+  document.getElementById('pill-' + p).classList.add('active');
+  renderMetas();
+}
+
+function renderMetas() {
+  loadEmail();
+  const email = loadState('userEmail', '');
+  document.getElementById('emailStatus').textContent = email ? `✓ E-mail configurado: ${email}` : '';
+
+  const dates = getDateRange(activePeriod);
+  const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+  let glucoseOk = 0, glucoseTotal = 0, checkDone = 0, checkTotal = 0;
+  let daysWithAllGlucose = 0, daysTracked = 0;
+  const trendGlucose = [], trendChecklist = [];
+
+  dates.forEach(d => {
+    const key = getDateKey(d);
+    const checked = loadState('daily_' + key, {});
+    const glucose = loadState('glucose_' + key, {});
+    const done = allIds.filter(id => checked[id]).length;
+    checkDone += done; checkTotal += allIds.length;
+    const pct = Math.round(done / allIds.length * 100);
+    trendChecklist.push({ pct, label: d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'numeric' }) });
+
+    let dayGOk = 0, dayGTotal = 0;
+    glucoseMoments.forEach(m => {
+      const v = glucose[m.id];
+      if (v) { dayGTotal++; glucoseTotal++; if (parseFloat(v) <= m.max) { glucoseOk++; dayGOk++; } }
+    });
+    if (dayGTotal > 0) { daysTracked++; if (dayGOk === dayGTotal) daysWithAllGlucose++; }
+    trendGlucose.push({ ok: dayGOk, total: dayGTotal, label: d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'numeric' }) });
+  });
+
+  const gPct = glucoseTotal ? Math.round(glucoseOk / glucoseTotal * 100) : null;
+  const cPct = checkTotal ? Math.round(checkDone / checkTotal * 100) : 0;
+  const perfectDaysPct = daysTracked ? Math.round(daysWithAllGlucose / daysTracked * 100) : null;
+
+  function gradeClass(pct, t) {
+    if (pct === null) return '';
+    return pct >= t[0] ? 'great' : pct >= t[1] ? 'warn' : 'bad';
+  }
+
+  const cards = [
+    { value: gPct !== null ? gPct + '%' : '—', label: 'Glicemias na meta', sub: gPct !== null ? (gPct >= 80 ? '🟢 Ótimo' : gPct >= 60 ? '🟡 Atenção' : '🔴 Ver médico') : 'Sem dados', cls: gradeClass(gPct, [80, 60]) },
+    { value: cPct + '%', label: 'Checklist cumprido', sub: cPct >= 80 ? '🟢 Excelente!' : cPct >= 60 ? '🟡 Pode melhorar' : '🔴 Vamos nessa!', cls: gradeClass(cPct, [80, 60]) },
+    { value: glucoseTotal || '—', label: 'Medições feitas', sub: `Meta: ${dates.length * 4} medições`, cls: glucoseTotal >= dates.length * 3 ? 'great' : glucoseTotal >= dates.length * 2 ? 'warn' : 'bad' },
+    { value: perfectDaysPct !== null ? perfectDaysPct + '%' : '—', label: 'Dias perfeitos', sub: 'Todas glicemias ok', cls: gradeClass(perfectDaysPct, [70, 40]) }
+  ];
+
+  document.getElementById('goalGrid').innerHTML = cards.map(c => `
+    <div class="goal-card ${c.cls}">
+      <div class="goal-card-value">${c.value}</div>
+      <div class="goal-card-label">${c.label}</div>
+      <div class="goal-card-sub">${c.sub}</div>
+    </div>`).join('');
+
+  const maxG = Math.max(...trendGlucose.map(d => d.total), 1);
+  document.getElementById('glucoseTrend').innerHTML = trendGlucose.map(d => {
+    const pct = d.total ? Math.round(d.ok / d.total * 100) : 0;
+    const h = d.total ? Math.max(8, Math.round(d.ok / maxG * 56)) : 4;
+    const cls = d.total === 0 ? 'miss' : pct >= 80 ? 'ok' : pct >= 50 ? 'warn' : 'bad';
+    return `<div class="trend-bar-wrap"><div class="trend-bar ${cls}" style="height:${h}px"></div><div class="trend-label">${d.label}</div></div>`;
+  }).join('');
+
+  document.getElementById('checklistTrend').innerHTML = trendChecklist.map(d => {
+    const h = Math.max(4, Math.round(d.pct / 100 * 56));
+    const cls = d.pct >= 80 ? 'ok' : d.pct >= 50 ? 'warn' : d.pct === 0 ? 'miss' : 'bad';
+    return `<div class="trend-bar-wrap"><div class="trend-bar ${cls}" style="height:${h}px"></div><div class="trend-label">${d.label}</div></div>`;
+  }).join('');
+
+  checkAutoSend();
+}
+
+function checkAutoSend() {
+  const email = loadState('userEmail', '');
+  if (!email) return;
+  const today = getDateKey(new Date());
+  const lastSent = loadState('lastEmailSent', '');
+  if (lastSent === today) return;
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(0, 0, 0, 0);
+  const yKey = getDateKey(yesterday);
+  const checked = loadState('daily_' + yKey, {});
+  if (Object.keys(checked).length === 0) return;
+  saveState('lastEmailSent', today);
+  const subject = encodeURIComponent(`Diário Gestação — ${yesterday.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}`);
+  const body = encodeURIComponent(buildDailySummaryText(yesterday));
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
+}
+
+// ===== INIT =====
+renderDaily();
+loadEmail();
+// Atualizar lembrete de glicemia a cada minuto
+setInterval(renderQuickGlucose, 60000);
+</script>
+</body>
+</html>
