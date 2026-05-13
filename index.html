@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0053)file:///C:/Users/paulo/Downloads/diario-gestacao.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diário da Gestação — Diabetes Gestacional</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="./index_files/css2" rel="stylesheet">
 <style>
   :root {
     --rose: #e8a0a0;
@@ -231,7 +230,7 @@
   }
   .quick-glucose-inputs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 8px;
   }
   .quick-glucose-item {
@@ -651,23 +650,23 @@
     ♡ Diário da Gestação
     <em>Diabetes Gestacional — Guia do Parceiro</em>
   </h1>
-  <div class="week-badge" id="currentWeekBadge">Carregando…</div>
+  <div class="week-badge" id="currentWeekBadge">29 semanas e 0 dias</div>
 </header>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('daily', this)">
+  <button class="tab-btn active" onclick="switchTab(&#39;daily&#39;, this)">
     <span class="tab-icon">📋</span>Hoje
   </button>
-  <button class="tab-btn" onclick="switchTab('glucose', this)">
+  <button class="tab-btn" onclick="switchTab(&#39;glucose&#39;, this)">
     <span class="tab-icon">🩸</span>Glicemias
   </button>
-  <button class="tab-btn" onclick="switchTab('weekly', this)">
+  <button class="tab-btn" onclick="switchTab(&#39;weekly&#39;, this)">
     <span class="tab-icon">📅</span>Semanas
   </button>
-  <button class="tab-btn" onclick="switchTab('metas', this)">
+  <button class="tab-btn" onclick="switchTab(&#39;metas&#39;, this)">
     <span class="tab-icon">📊</span>Metas
   </button>
-  <button class="tab-btn" onclick="switchTab('guide', this)">
+  <button class="tab-btn" onclick="switchTab(&#39;guide&#39;, this)">
     <span class="tab-icon">📖</span>Guia
   </button>
 </div>
@@ -678,8 +677,8 @@
   <div class="date-nav">
     <button onclick="changeDay(-1)">‹</button>
     <div class="date-label">
-      <span id="dateDisplay"></span>
-      <small id="dateWeek"></small>
+      <span id="dateDisplay">quarta-feira, 13 de maio</span>
+      <small id="dateWeek">29 sem. e 0 dias de gestação</small>
     </div>
     <button onclick="changeDay(1)">›</button>
   </div>
@@ -688,19 +687,223 @@
     <div class="progress-bar-track">
       <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
     </div>
-    <div class="progress-label" id="progressLabel">0 / 0 feitos</div>
+    <div class="progress-label" id="progressLabel">0 / 17 feitos</div>
   </div>
 
   <!-- ATALHO GLICEMIA (melhoria #6 + lembrete #5) -->
   <div class="quick-glucose-card">
     <div class="quick-glucose-header">
       <div class="quick-glucose-title">🩸 Glicemia rápida</div>
-      <div class="glucose-reminder-badge" id="reminderBadge">⏰ —</div>
+      <div class="glucose-reminder-badge" id="reminderBadge">⏰ Pós-café</div>
     </div>
-    <div class="quick-glucose-inputs" id="quickGlucoseInputs"></div>
+    <div class="quick-glucose-inputs" id="quickGlucoseInputs">
+      <div class="quick-glucose-item  ">
+        <div class="qg-label">Jejum</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g1&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div>
+      <div class="quick-glucose-item active-moment ">
+        <div class="qg-label">Pós-café</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g2&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div>
+      <div class="quick-glucose-item  ">
+        <div class="qg-label">Pré-almoço</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g3&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div>
+      <div class="quick-glucose-item  ">
+        <div class="qg-label">Pós-almoço</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g4&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div>
+      <div class="quick-glucose-item  ">
+        <div class="qg-label">Pré-jantar</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g6&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div>
+      <div class="quick-glucose-item  ">
+        <div class="qg-label">Pós-jantar</div>
+        <div class="qg-input-row">
+          <input class="qg-input" type="number" placeholder="—" value="" min="40" max="400" oninput="saveQuickGlucose(&#39;g5&#39;, this.value)">
+          <span class="qg-unit">mg/dL</span>
+        </div>
+        
+      </div></div>
   </div>
 
-  <div id="dailyChecklist"></div>
+  <div id="dailyChecklist">
+    <div class="section">
+      <div class="section-title">🌅 Manhã</div>
+      
+        <div class="check-item " onclick="toggleItem(&#39;g_jejum&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia em jejum</strong> (antes de comer)</div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;cafe&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Café da manhã (carboidrato + proteína + fibra)</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;lanche1&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Lanche da manhã (até 3h após café)</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;g_cafe&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia 1h após café da manhã</strong></div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+    </div>
+  
+    <div class="section">
+      <div class="section-title">☀️ Tarde</div>
+      
+        <div class="check-item " onclick="toggleItem(&#39;almoco&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Almoço (prato balanceado)</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;g_pre_almoco&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia antes do almoço</strong></div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;g_1h_almoco&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia 1h após almoço</strong></div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;caminhada1&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Caminhada 20–30 min após almoço</div>
+            
+          </div>
+          <span class="item-tag tag-activity">Atividade</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;lanche2&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Lanche da tarde</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+    </div>
+  
+    <div class="section">
+      <div class="section-title">🌙 Noite</div>
+      
+        <div class="check-item " onclick="toggleItem(&#39;jantar&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Jantar (carboidrato moderado)</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;g_pre_jantar&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia antes do jantar</strong></div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;g_1h_jantar&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label"><strong>Glicemia 1h após jantar</strong></div>
+            
+          </div>
+          <span class="item-tag tag-glucose">Glicemia</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;caminhada2&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Caminhada leve após jantar</div>
+            
+          </div>
+          <span class="item-tag tag-activity">Atividade</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;lanche3&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Ceia leve (evitar hipoglicemia noturna)</div>
+            
+          </div>
+          <span class="item-tag tag-meal">Refeição</span>
+        </div>
+    </div>
+  
+    <div class="section">
+      <div class="section-title">💊 Medicação &amp; Cuidados</div>
+      
+        <div class="check-item " onclick="toggleItem(&#39;insulina&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Insulina aplicada (se prescrito)</div>
+            
+          </div>
+          <span class="item-tag tag-meds">Medicação</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;agua&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Hidratação adequada (≥ 2L de água)</div>
+            
+          </div>
+          <span class="item-tag tag-care">Cuidado</span>
+        </div>
+        <div class="check-item " onclick="toggleItem(&#39;bem_estar&#39;)">
+          <div class="checkbox"></div>
+          <div style="flex:1">
+            <div class="item-label">Verificar bem-estar emocional dela</div>
+            
+          </div>
+          <span class="item-tag tag-care">Cuidado</span>
+        </div>
+    </div>
+  </div>
 
   <div class="section">
     <div class="section-title">📝 Notas do dia</div>
@@ -739,8 +942,8 @@
   <div class="email-config">
     <div class="email-config-title">✉️ Envio automático diário</div>
     <div class="email-input-row">
-      <input class="email-text-input" type="email" id="emailInput" placeholder="seu@email.com" oninput="saveEmail()" />
-      <button class="email-save-btn" onclick="sendEmailNow('daily')">Enviar agora</button>
+      <input class="email-text-input" type="email" id="emailInput" placeholder="seu@email.com" oninput="saveEmail()">
+      <button class="email-save-btn" onclick="sendEmailNow(&#39;daily&#39;)">Enviar agora</button>
     </div>
     <div class="email-status" id="emailStatus"></div>
   </div>
@@ -754,9 +957,9 @@
   </div>
 
   <div class="period-pills">
-    <div class="period-pill active" onclick="setPeriod('week')" id="pill-week">7 dias</div>
-    <div class="period-pill" onclick="setPeriod('month')" id="pill-month">30 dias</div>
-    <div class="period-pill" onclick="setPeriod('all')" id="pill-all">Tudo</div>
+    <div class="period-pill active" onclick="setPeriod(&#39;week&#39;)" id="pill-week">7 dias</div>
+    <div class="period-pill" onclick="setPeriod(&#39;month&#39;)" id="pill-month">30 dias</div>
+    <div class="period-pill" onclick="setPeriod(&#39;all&#39;)" id="pill-all">Tudo</div>
   </div>
 
   <div class="goal-grid" id="goalGrid"></div>
@@ -771,8 +974,8 @@
     <div class="trend-chart" id="checklistTrend"></div>
   </div>
 
-  <button class="send-btn" onclick="sendEmailNow('daily')">📧 Enviar resumo de hoje</button>
-  <button class="send-btn-secondary" onclick="sendEmailNow('period')">📊 Enviar consolidado do período</button>
+  <button class="send-btn" onclick="sendEmailNow(&#39;daily&#39;)">📧 Enviar resumo de hoje</button>
+  <button class="send-btn-secondary" onclick="sendEmailNow(&#39;period&#39;)">📊 Enviar consolidado do período</button>
   <!-- EXPORT PDF (melhoria #4) -->
   <button class="pdf-btn" onclick="exportPDF()">📄 Exportar PDF semanal para consulta</button>
 </div>
@@ -869,6 +1072,7 @@ const dailySections = [
     title: '☀️ Tarde',
     items: [
       { id: 'almoco', label: 'Almoço (prato balanceado)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'g_pre_almoco', label: '<strong>Glicemia antes do almoço</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
       { id: 'g_1h_almoco', label: '<strong>Glicemia 1h após almoço</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
       { id: 'caminhada1', label: 'Caminhada 20–30 min após almoço', tag: 'activity', field: { placeholder: 'Duração / observação' } },
       { id: 'lanche2', label: 'Lanche da tarde', tag: 'meal', field: { placeholder: 'O que comeu?' } },
@@ -878,6 +1082,7 @@ const dailySections = [
     title: '🌙 Noite',
     items: [
       { id: 'jantar', label: 'Jantar (carboidrato moderado)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
+      { id: 'g_pre_jantar', label: '<strong>Glicemia antes do jantar</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
       { id: 'g_1h_jantar', label: '<strong>Glicemia 1h após jantar</strong>', tag: 'glucose', field: { placeholder: 'Valor (mg/dL)', type: 'number' } },
       { id: 'caminhada2', label: 'Caminhada leve após jantar', tag: 'activity', field: { placeholder: 'Duração / observação' } },
       { id: 'lanche3', label: 'Ceia leve (evitar hipoglicemia noturna)', tag: 'meal', field: { placeholder: 'O que comeu?' } },
@@ -897,11 +1102,15 @@ const tagLabels = { meal: 'Refeição', glucose: 'Glicemia', activity: 'Atividad
 const tagClasses = { meal: 'tag-meal', glucose: 'tag-glucose', activity: 'tag-activity', meds: 'tag-meds', care: 'tag-care', weekly: 'tag-weekly' };
 
 // ===== GLUCOSE MOMENTS =====
+// Ordem cronológica: jejum → pós-café → pré-almoço → pós-almoço → pré-jantar → pós-jantar
+// checklistId = id do item correspondente no dailySections (para sincronização automática)
 const glucoseMoments = [
-  { id: 'g1', label: 'Jejum', max: 95, hint: 'Meta: < 95 mg/dL', shortLabel: 'Jejum' },
-  { id: 'g2', label: '1h após café', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-café' },
-  { id: 'g4', label: '1h após almoço', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-almoço' },
-  { id: 'g5', label: '1h após jantar', max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-jantar' },
+  { id: 'g1', label: 'Jejum',           max: 95,  hint: 'Meta: < 95 mg/dL',  shortLabel: 'Jejum',      checklistId: 'g_jejum'      },
+  { id: 'g2', label: '1h após café',    max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-café',   checklistId: 'g_cafe'       },
+  { id: 'g3', label: 'Antes do almoço', max: 95,  hint: 'Meta: < 95 mg/dL',  shortLabel: 'Pré-almoço', checklistId: 'g_pre_almoco' },
+  { id: 'g4', label: '1h após almoço',  max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-almoço', checklistId: 'g_1h_almoco'  },
+  { id: 'g6', label: 'Antes do jantar', max: 95,  hint: 'Meta: < 95 mg/dL',  shortLabel: 'Pré-jantar', checklistId: 'g_pre_jantar' },
+  { id: 'g5', label: '1h após jantar',  max: 140, hint: 'Meta: < 140 mg/dL', shortLabel: 'Pós-jantar', checklistId: 'g_1h_jantar'  },
 ];
 
 // ===== MELHORIA #5: LEMBRETE BASEADO NO HORÁRIO =====
@@ -910,11 +1119,13 @@ function getCurrentGlucoseReminder() {
   const m = new Date().getMinutes();
   const totalMin = h * 60 + m;
 
-  // Horários aproximados: 6–8h jejum, 8–10h pós-café, 12–14h pós-almoço, 19–21h pós-jantar
-  if (totalMin >= 360 && totalMin < 480)  return { text: '⏰ Hora do jejum', idx: 0 };
-  if (totalMin >= 480 && totalMin < 660)  return { text: '⏰ Pós-café', idx: 1 };
-  if (totalMin >= 720 && totalMin < 900)  return { text: '⏰ Pós-almoço', idx: 2 };
-  if (totalMin >= 1140 && totalMin < 1320) return { text: '⏰ Pós-jantar', idx: 3 };
+  // idx = posição em glucoseMoments (0=jejum,1=pós-café,2=pré-almoço,3=pós-almoço,4=pré-jantar,5=pós-jantar)
+  if (totalMin >= 360  && totalMin < 480)  return { text: '⏰ Hora do jejum',  idx: 0 };
+  if (totalMin >= 480  && totalMin < 660)  return { text: '⏰ Pós-café',        idx: 1 };
+  if (totalMin >= 660  && totalMin < 750)  return { text: '⏰ Pré-almoço',      idx: 2 };
+  if (totalMin >= 750  && totalMin < 900)  return { text: '⏰ Pós-almoço',      idx: 3 };
+  if (totalMin >= 1050 && totalMin < 1140) return { text: '⏰ Pré-jantar',      idx: 4 };
+  if (totalMin >= 1140 && totalMin < 1320) return { text: '⏰ Pós-jantar',      idx: 5 };
   return { text: '✓ Sem medição agora', idx: -1 };
 }
 
@@ -962,15 +1173,121 @@ function renderQuickGlucose() {
   document.getElementById('quickGlucoseInputs').innerHTML = html;
 }
 
-function saveQuickGlucose(id, val) {
+// ===== FONTE ÚNICA DE VERDADE PARA GLICEMIA =====
+// Qualquer input — seja da aba Hoje ou da aba Glicemias — chama esta função.
+// fromQuick=true indica que veio do atalho rápido: nesse caso também marca o checklist e preenche o campo.
+function saveGlucoseValue(id, val, fromQuick) {
   const key = getDateKey(currentDate);
   const vals = loadState('glucose_' + key, {});
-  vals[id] = val;
+  if (val === '' || val === null) {
+    delete vals[id];
+  } else {
+    vals[id] = val;
+  }
   saveState('glucose_' + key, vals);
-  // Atualiza aba glicemias se estiver visível
-  if (document.getElementById('tab-glucose').classList.contains('active')) renderGlucose();
-  setTimeout(renderQuickGlucose, 80);
+
+  // Se veio do atalho rápido: marcar checklist + preencher campo de valor
+  if (fromQuick) {
+    const moment = glucoseMoments.find(m => m.id === id);
+    if (moment && moment.checklistId) {
+      const checked = loadState('daily_' + key, {});
+      const fieldVals = loadState('daily_fields_' + key, {});
+
+      if (val !== '' && val !== null) {
+        // Marcar como feito e guardar o valor no campo
+        checked[moment.checklistId] = true;
+        fieldVals[moment.checklistId] = val;
+      } else {
+        // Se apagou o valor, desmarcar
+        checked[moment.checklistId] = false;
+        delete fieldVals[moment.checklistId];
+      }
+
+      saveState('daily_' + key, checked);
+      saveState('daily_fields_' + key, fieldVals);
+
+      // Atualizar checklist na aba Hoje se estiver visível
+      if (document.getElementById('tab-daily').classList.contains('active')) {
+        renderDaily();
+      }
+    }
+  }
+
+  // Atualiza status visual do atalho rápido sem recriar inputs
+  _refreshQuickGlucoseStatus(id, val);
+
+  // Atualiza aba Glicemias se estiver visível
+  if (document.getElementById('tab-glucose').classList.contains('active')) {
+    _refreshGlucoseCardStatus(id, val);
+  }
 }
+
+// Atualiza apenas o status e a borda do item no quick-glucose sem recriar os inputs
+// (evita perda de foco enquanto o usuário digita)
+function _refreshQuickGlucoseStatus(changedId, val) {
+  const key = getDateKey(currentDate);
+  const vals = loadState('glucose_' + key, {});
+
+  glucoseMoments.forEach((m, i) => {
+    const itemEl = document.querySelector(`#quickGlucoseInputs .quick-glucose-item:nth-child(${i + 1})`);
+    if (!itemEl) return;
+    const v = m.id === changedId ? val : vals[m.id];
+    const numVal = parseFloat(v);
+    const hasVal = v !== '' && v !== undefined && !isNaN(numVal);
+
+    itemEl.classList.toggle('has-value', hasVal);
+
+    let statusEl = itemEl.querySelector('.qg-status');
+    if (!statusEl) {
+      statusEl = document.createElement('div');
+      itemEl.appendChild(statusEl);
+    }
+    if (hasVal) {
+      statusEl.className = 'qg-status ' + (numVal <= m.max ? 'ok' : 'high');
+      statusEl.textContent = numVal <= m.max ? '✓ na meta' : '⚠ acima';
+    } else {
+      statusEl.className = 'qg-status';
+      statusEl.textContent = '';
+    }
+  });
+}
+
+// Atualiza status e borda de um card na aba Glicemias sem recriar o input
+function _refreshGlucoseCardStatus(changedId, val) {
+  const m = glucoseMoments.find(x => x.id === changedId);
+  if (!m) return;
+  const idx = glucoseMoments.indexOf(m);
+  const cardEl = document.querySelector(`#glucoseCards .glucose-card:nth-child(${idx + 1})`);
+  if (!cardEl) return;
+
+  const numVal = parseFloat(val);
+  const hasVal = val !== '' && !isNaN(numVal);
+
+  cardEl.classList.remove('ok', 'high');
+  let statusEl = cardEl.querySelector('.glucose-status');
+  if (!statusEl) {
+    statusEl = document.createElement('div');
+    statusEl.className = 'glucose-status';
+    cardEl.appendChild(statusEl);
+  }
+
+  if (hasVal) {
+    if (numVal <= m.max) {
+      cardEl.classList.add('ok');
+      statusEl.style.color = 'var(--sage)';
+      statusEl.textContent = '✓ Dentro da meta';
+    } else {
+      cardEl.classList.add('high');
+      statusEl.style.color = '#c05050';
+      statusEl.textContent = '⚠ Acima da meta — comunicar equipe médica';
+    }
+  } else {
+    statusEl.textContent = '';
+  }
+}
+
+function saveQuickGlucose(id, val) { saveGlucoseValue(id, val, true);  } // vem do atalho rápido
+function saveGlucose(id, val)      { saveGlucoseValue(id, val, false); } // vem da aba Glicemias
 
 // ===== RENDERIZAR DIÁRIO =====
 function renderDaily() {
@@ -1107,15 +1424,6 @@ function renderGlucose() {
 
   document.getElementById('glucoseCards').innerHTML = html;
   document.getElementById('glucoseNotes').value = notes;
-}
-
-function saveGlucose(id, val) {
-  const key = getDateKey(currentDate);
-  const vals = loadState('glucose_' + key, {});
-  vals[id] = val;
-  saveState('glucose_' + key, vals);
-  renderQuickGlucose();
-  setTimeout(renderGlucose, 100);
 }
 
 function saveGlucoseNotes() {
@@ -1380,48 +1688,13 @@ function sendEmailNow(type) {
   saveState('lastEmailSent', getDateKey(new Date()));
 }
 
-// ===== MELHORIA #4: EXPORT PDF =====
+// ===== MELHORIA #4: EXPORT PDF (geração nativa, sem dependência de CDN) =====
 function exportPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
   const dates = getDateRange('week');
-  const pageW = 210;
-  const margin = 16;
-  const contentW = pageW - margin * 2;
-  let y = 20;
-
-  // Paleta em hex RGB para jsPDF
-  const rose = [201, 123, 123];
-  const sage = [138, 171, 150];
-  const gold = [196, 162, 101];
-  const textMuted = [122, 96, 96];
-  const textDark = [45, 32, 32];
-  const red = [192, 80, 80];
-
-  function setColor(rgb) { doc.setTextColor(...rgb); }
-  function drawLine(x1, y1, x2, y2, rgb, lw = 0.3) {
-    doc.setDrawColor(...rgb);
-    doc.setLineWidth(lw);
-    doc.line(x1, y1, x2, y2);
-  }
-
-  // Cabeçalho
-  doc.setFillColor(...rose);
-  doc.roundedRect(margin, y - 8, contentW, 22, 4, 4, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  doc.setTextColor(255, 255, 255);
-  doc.text('Diario da Gestacao - Diabetes Gestacional', margin + 6, y + 2);
-  doc.setFontSize(8);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Resumo semanal para consulta medica', margin + 6, y + 8);
-  y += 22;
-
-  // Calcular estatísticas gerais
   const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
-  let totalGOk = 0, totalGAll = 0, totalCDone = 0;
 
+  // Calcular estatísticas
+  let totalGOk = 0, totalGAll = 0, totalCDone = 0;
   dates.forEach(d => {
     const key = getDateKey(d);
     const checked = loadState('daily_' + key, {});
@@ -1436,149 +1709,125 @@ function exportPDF() {
   const gPct = totalGAll ? Math.round(totalGOk / totalGAll * 100) : null;
   const cPct = Math.round(totalCDone / (allIds.length * dates.length) * 100);
 
-  // Cards de resumo
-  y += 6;
-  const cardW = (contentW - 8) / 2;
+  // Montar conteúdo HTML estilizado para impressão/conversão
+  const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-  function drawSummaryCard(x, cy, label, value, sub, color) {
-    doc.setFillColor(250, 245, 245);
-    doc.roundedRect(x, cy, cardW, 22, 3, 3, 'F');
-    doc.setDrawColor(...color);
-    doc.setLineWidth(0.8);
-    doc.line(x, cy, x, cy + 22);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
-    setColor(color);
-    doc.text(value, x + cardW / 2, cy + 11, { align: 'center' });
-    doc.setFontSize(6.5);
-    doc.setFont('helvetica', 'normal');
-    setColor(textMuted);
-    doc.text(label.toUpperCase(), x + cardW / 2, cy + 16, { align: 'center' });
-    doc.setFontSize(6);
-    setColor(color);
-    doc.text(sub, x + cardW / 2, cy + 20, { align: 'center' });
-  }
-
-  drawSummaryCard(margin, y, 'Glicemias na meta', gPct !== null ? gPct + '%' : '--', gPct >= 80 ? 'Otimo controle' : gPct >= 60 ? 'Atencao' : 'Ver medico', gPct >= 80 ? sage : gPct >= 60 ? gold : red);
-  drawSummaryCard(margin + cardW + 8, y, 'Checklist cumprido', cPct + '%', cPct >= 80 ? 'Excelente!' : cPct >= 60 ? 'Pode melhorar' : 'Vamos nessa!', cPct >= 80 ? sage : cPct >= 60 ? gold : red);
-  y += 28;
-
-  // Tabela de glicemias
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  setColor(rose);
-  doc.text('GLICEMIAS DA SEMANA (mg/dL)', margin, y);
-  drawLine(margin, y + 1.5, margin + contentW, y + 1.5, rose, 0.4);
-  y += 6;
-
-  // Header da tabela
-  const cols = ['Data', ...glucoseMoments.map(m => m.shortLabel)];
-  const colWidths = [30, ...Array(4).fill((contentW - 30) / 4)];
-  let cx = margin;
-
-  doc.setFillColor(249, 237, 237);
-  doc.rect(margin, y - 4, contentW, 7, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  cols.forEach((col, i) => {
-    setColor(textDark);
-    doc.text(col, cx + colWidths[i] / 2, y, { align: 'center' });
-    cx += colWidths[i];
-  });
-  y += 4;
-
-  // Linhas de dados
-  dates.forEach((d, rowIdx) => {
+  // Linhas da tabela de glicemias
+  const tableRows = dates.map((d, rowIdx) => {
     const key = getDateKey(d);
     const glucose = loadState('glucose_' + key, {});
-    const opts = { day: '2-digit', month: '2-digit' };
-    const dateStr = d.toLocaleDateString('pt-BR', opts);
-
-    if (y > 270) { doc.addPage(); y = 20; }
-
-    if (rowIdx % 2 === 0) {
-      doc.setFillColor(253, 248, 244);
-      doc.rect(margin, y - 3.5, contentW, 7, 'F');
-    }
-
-    cx = margin;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    setColor(textDark);
-    doc.text(dateStr, cx + colWidths[0] / 2, y + 0.5, { align: 'center' });
-    cx += colWidths[0];
-
-    glucoseMoments.forEach((m, i) => {
+    const dateStr = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    const bg = rowIdx % 2 === 0 ? '#fdf8f4' : '#ffffff';
+    const cells = glucoseMoments.map(m => {
       const v = glucose[m.id];
-      if (v) {
-        const ok = parseFloat(v) <= m.max;
-        setColor(ok ? sage : red);
-        doc.setFont('helvetica', ok ? 'normal' : 'bold');
-        doc.text(`${v}${ok ? '' : '!'}`, cx + colWidths[i + 1] / 2, y + 0.5, { align: 'center' });
-      } else {
-        setColor(textMuted);
-        doc.setFont('helvetica', 'normal');
-        doc.text('—', cx + colWidths[i + 1] / 2, y + 0.5, { align: 'center' });
-      }
-      cx += colWidths[i + 1];
-    });
+      if (!v) return `<td style="color:#b0a0a0;">—</td>`;
+      const ok = parseFloat(v) <= m.max;
+      return `<td style="color:${ok ? '#5a9a70' : '#c05050'};font-weight:${ok ? '400' : '700'}">${v}${ok ? '' : ' !'}</td>`;
+    }).join('');
+    return `<tr style="background:${bg}"><td><strong>${dateStr}</strong></td>${cells}</tr>`;
+  }).join('');
 
-    drawLine(margin, y + 4, margin + contentW, y + 4, [220, 210, 210], 0.2);
-    y += 8;
-  });
-
-  // Metas de referência
-  y += 4;
-  doc.setFillColor(238, 244, 241);
-  doc.roundedRect(margin, y, contentW, 12, 2, 2, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  setColor(sage);
-  doc.text('METAS:', margin + 4, y + 5);
-  doc.setFont('helvetica', 'normal');
-  setColor(textDark);
-  doc.text('Jejum < 95  |  1h pos-refeicao < 140  |  2h pos-refeicao < 120  (mg/dL)', margin + 20, y + 5);
-  doc.setFontSize(5.5);
-  setColor(textMuted);
-  doc.text('! = acima da meta', margin + 4, y + 10);
-  y += 18;
-
-  // Notas da semana
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  setColor(rose);
-  doc.text('NOTAS DA SEMANA', margin, y);
-  drawLine(margin, y + 1.5, margin + contentW, y + 1.5, rose, 0.4);
-  y += 7;
-
-  dates.forEach(d => {
+  // Linhas de notas
+  const noteRows = dates.map(d => {
     const key = getDateKey(d);
     const notes = loadState('notes_' + key, '');
-    if (!notes) return;
-    if (y > 270) { doc.addPage(); y = 20; }
-    const opts = { weekday: 'short', day: '2-digit', month: '2-digit' };
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    setColor(textDark);
-    doc.text(d.toLocaleDateString('pt-BR', opts) + ':', margin, y);
-    doc.setFont('helvetica', 'normal');
-    setColor(textMuted);
-    const lines = doc.splitTextToSize(notes, contentW - 24);
-    doc.text(lines, margin + 24, y);
-    y += lines.length * 4 + 3;
-  });
+    if (!notes) return '';
+    const dateStr = d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+    return `<tr><td style="font-weight:600;white-space:nowrap;padding-right:12px;">${dateStr}</td><td style="color:#7a6060">${notes}</td></tr>`;
+  }).join('');
 
-  // Rodapé
-  const pageCount = doc.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    doc.setFontSize(6);
-    setColor(textMuted);
-    doc.text(`Diario da Gestacao - Diabetes Gestacional  |  Pagina ${i}/${pageCount}`, pageW / 2, 292, { align: 'center' });
+  const headerCols = ['Data', ...glucoseMoments.map(m => m.shortLabel)].map(h => `<th>${h}</th>`).join('');
+
+  const gColor = gPct === null ? '#aaa' : gPct >= 80 ? '#5a9a70' : gPct >= 60 ? '#b09030' : '#c05050';
+  const cColor = cPct >= 80 ? '#5a9a70' : cPct >= 60 ? '#b09030' : '#c05050';
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Diario Gestacao - ${hoje}</title>
+<style>
+  @page { size: A4; margin: 16mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 11px; color: #2d2020; background: white; }
+  .header { background: linear-gradient(135deg, #c97b7b, #c4a265); color: white; padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; }
+  .header h1 { font-size: 15px; margin-bottom: 3px; }
+  .header p  { font-size: 9px; opacity: 0.88; }
+  .cards { display: flex; gap: 12px; margin-bottom: 18px; }
+  .card { flex: 1; border-radius: 8px; padding: 12px; background: #fdf8f4; border-left: 4px solid #ccc; text-align: center; }
+  .card .val { font-size: 26px; font-weight: 700; line-height: 1; }
+  .card .lbl { font-size: 8px; color: #7a6060; text-transform: uppercase; letter-spacing: .05em; margin-top: 4px; }
+  .card .sub { font-size: 9px; font-weight: 600; margin-top: 5px; }
+  .section-title { font-size: 11px; font-weight: 700; color: #c97b7b; border-bottom: 1.5px solid #f0d8d8; padding-bottom: 4px; margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 10px; }
+  th { background: #f9eded; padding: 5px 4px; text-align: center; font-size: 9px; color: #2d2020; }
+  td { padding: 5px 4px; text-align: center; border-bottom: 1px solid #ece0e0; }
+  .meta-box { background: #eef4f1; border-radius: 5px; padding: 8px 12px; font-size: 9px; color: #3a5a40; margin-bottom: 18px; }
+  .meta-box strong { color: #5a9a70; }
+  .notes-table td { text-align: left; vertical-align: top; padding: 5px 6px; }
+  .footer { margin-top: 20px; font-size: 8px; color: #b0a0a0; text-align: center; border-top: 1px solid #ece0e0; padding-top: 8px; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Diário da Gestação — Diabetes Gestacional</h1>
+  <p>Resumo semanal para consulta médica · Gerado em ${hoje}</p>
+</div>
+
+<div class="cards">
+  <div class="card" style="border-left-color:${gColor}">
+    <div class="val" style="color:${gColor}">${gPct !== null ? gPct + '%' : '—'}</div>
+    <div class="lbl">Glicemias na meta</div>
+    <div class="sub" style="color:${gColor}">${gPct === null ? 'Sem dados' : gPct >= 80 ? 'Ótimo controle' : gPct >= 60 ? 'Atenção' : 'Ver médico'}</div>
+  </div>
+  <div class="card" style="border-left-color:${cColor}">
+    <div class="val" style="color:${cColor}">${cPct}%</div>
+    <div class="lbl">Checklist cumprido</div>
+    <div class="sub" style="color:${cColor}">${cPct >= 80 ? 'Excelente!' : cPct >= 60 ? 'Pode melhorar' : 'Vamos nessa!'}</div>
+  </div>
+  <div class="card" style="border-left-color:#c4a265">
+    <div class="val" style="color:#c4a265">${totalGAll || '—'}</div>
+    <div class="lbl">Medições feitas</div>
+    <div class="sub" style="color:#7a6060">Meta: ${dates.length * 6} medições</div>
+  </div>
+</div>
+
+<div class="section-title">Glicemias da semana (mg/dL)</div>
+<table>
+  <thead><tr>${headerCols}</tr></thead>
+  <tbody>${tableRows}</tbody>
+</table>
+
+<div class="meta-box">
+  <strong>Metas:</strong>
+  Jejum &lt; 95 · Pré-refeição &lt; 95 · 1h pós-refeição &lt; 140 (mg/dL) &nbsp;|&nbsp; <strong>!</strong> = acima da meta
+</div>
+
+${noteRows ? `
+<div class="section-title">Notas da semana</div>
+<table class="notes-table">
+  <tbody>${noteRows}</tbody>
+</table>` : ''}
+
+<div class="footer">Diário da Gestação — Diabetes Gestacional &nbsp;|&nbsp; ${hoje}</div>
+
+<script>window.onload = function() { window.print(); }<\/script>
+</body>
+</html>`;
+
+  // Abrir em nova janela → diálogo de impressão/salvar PDF nativo do browser
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (!win) {
+    alert('Popup bloqueado! Permita popups para este site e tente novamente.');
+    URL.revokeObjectURL(url);
+    return;
   }
-
-  const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  doc.save(`Diario-Gestacao-${hoje.replace(/\//g, '-')}.pdf`);
+  // Liberar memória após uso
+  win.addEventListener('afterprint', () => URL.revokeObjectURL(url));
 }
 
 // ===== METAS =====
@@ -1632,7 +1881,7 @@ function renderMetas() {
   const cards = [
     { value: gPct !== null ? gPct + '%' : '—', label: 'Glicemias na meta', sub: gPct !== null ? (gPct >= 80 ? '🟢 Ótimo' : gPct >= 60 ? '🟡 Atenção' : '🔴 Ver médico') : 'Sem dados', cls: gradeClass(gPct, [80, 60]) },
     { value: cPct + '%', label: 'Checklist cumprido', sub: cPct >= 80 ? '🟢 Excelente!' : cPct >= 60 ? '🟡 Pode melhorar' : '🔴 Vamos nessa!', cls: gradeClass(cPct, [80, 60]) },
-    { value: glucoseTotal || '—', label: 'Medições feitas', sub: `Meta: ${dates.length * 4} medições`, cls: glucoseTotal >= dates.length * 3 ? 'great' : glucoseTotal >= dates.length * 2 ? 'warn' : 'bad' },
+    { value: glucoseTotal || '—', label: 'Medições feitas', sub: `Meta: ${dates.length * 6} medições`, cls: glucoseTotal >= dates.length * 5 ? 'great' : glucoseTotal >= dates.length * 3 ? 'warn' : 'bad' },
     { value: perfectDaysPct !== null ? perfectDaysPct + '%' : '—', label: 'Dias perfeitos', sub: 'Todas glicemias ok', cls: gradeClass(perfectDaysPct, [70, 40]) }
   ];
 
@@ -1684,5 +1933,6 @@ loadEmail();
 // Atualizar lembrete de glicemia a cada minuto
 setInterval(renderQuickGlucose, 60000);
 </script>
-</body>
-</html>
+
+
+</body></html>
