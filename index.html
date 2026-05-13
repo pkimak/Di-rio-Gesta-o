@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/paulo/Downloads/diario-gestacao.html -->
+<!-- saved from url=(0055)file:///C:/Users/paulo/Downloads/diario-gestacao_3.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -685,7 +685,7 @@
 
   <div class="progress-bar-wrap">
     <div class="progress-bar-track">
-      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
     </div>
     <div class="progress-label" id="progressLabel">0 / 17 feitos</div>
   </div>
@@ -756,6 +756,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia em jejum</strong> (antes de comer)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="70" oninput="saveFieldVal(&#39;g_jejum&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -764,6 +767,9 @@
           <div style="flex:1">
             <div class="item-label">Café da manhã (carboidrato + proteína + fibra)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;cafe&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -772,6 +778,9 @@
           <div style="flex:1">
             <div class="item-label">Lanche da manhã (até 3h após café)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;lanche1&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -780,6 +789,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia 1h após café da manhã</strong></div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="" oninput="saveFieldVal(&#39;g_cafe&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -793,6 +805,9 @@
           <div style="flex:1">
             <div class="item-label">Almoço (prato balanceado)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;almoco&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -801,6 +816,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia antes do almoço</strong></div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="" oninput="saveFieldVal(&#39;g_pre_almoco&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -809,6 +827,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia 1h após almoço</strong></div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="" oninput="saveFieldVal(&#39;g_1h_almoco&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -817,6 +838,9 @@
           <div style="flex:1">
             <div class="item-label">Caminhada 20–30 min após almoço</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="Duração / observação" value="" oninput="saveFieldVal(&#39;caminhada1&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-activity">Atividade</span>
         </div>
@@ -825,6 +849,9 @@
           <div style="flex:1">
             <div class="item-label">Lanche da tarde</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;lanche2&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -838,6 +865,9 @@
           <div style="flex:1">
             <div class="item-label">Jantar (carboidrato moderado)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;jantar&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -846,6 +876,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia antes do jantar</strong></div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="" oninput="saveFieldVal(&#39;g_pre_jantar&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -854,6 +887,9 @@
           <div style="flex:1">
             <div class="item-label"><strong>Glicemia 1h após jantar</strong></div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="number" placeholder="Valor (mg/dL)" value="" oninput="saveFieldVal(&#39;g_1h_jantar&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-glucose">Glicemia</span>
         </div>
@@ -862,6 +898,9 @@
           <div style="flex:1">
             <div class="item-label">Caminhada leve após jantar</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="Duração / observação" value="" oninput="saveFieldVal(&#39;caminhada2&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-activity">Atividade</span>
         </div>
@@ -870,6 +909,9 @@
           <div style="flex:1">
             <div class="item-label">Ceia leve (evitar hipoglicemia noturna)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="O que comeu?" value="" oninput="saveFieldVal(&#39;lanche3&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meal">Refeição</span>
         </div>
@@ -883,6 +925,9 @@
           <div style="flex:1">
             <div class="item-label">Insulina aplicada (se prescrito)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="Dose / horário" value="" oninput="saveFieldVal(&#39;insulina&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-meds">Medicação</span>
         </div>
@@ -891,6 +936,9 @@
           <div style="flex:1">
             <div class="item-label">Hidratação adequada (≥ 2L de água)</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="Quantos ml aproximadamente?" value="" oninput="saveFieldVal(&#39;agua&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-care">Cuidado</span>
         </div>
@@ -899,6 +947,9 @@
           <div style="flex:1">
             <div class="item-label">Verificar bem-estar emocional dela</div>
             
+          <div class="item-field-wrap" onclick="event.stopPropagation()">
+            <input class="item-field-input" type="text" placeholder="Como ela está?" value="" oninput="saveFieldVal(&#39;bem_estar&#39;, this.value)">
+          </div>
           </div>
           <span class="item-tag tag-care">Cuidado</span>
         </div>
@@ -920,7 +971,61 @@
     <p><strong>Metas:</strong> Jejum &lt; 95 mg/dL · 1h pós-refeição &lt; 140 mg/dL · 2h pós-refeição &lt; 120 mg/dL</p>
   </div>
 
-  <div id="glucoseCards"></div>
+  <div id="glucoseCards">
+      <div class="glucose-card">
+        <div class="glucose-title">Jejum</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="70" min="40" max="400" oninput="saveGlucose(&#39;g1&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        <div class="glucose-status" style="color:var(--sage)"></div>
+        <div class="glucose-meta">Meta: &lt; 95 mg/dL</div>
+      </div>
+      <div class="glucose-card">
+        <div class="glucose-title">1h após café</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="101" min="40" max="400" oninput="saveGlucose(&#39;g2&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        <div class="glucose-status" style="color:var(--sage)"></div>
+        <div class="glucose-meta">Meta: &lt; 140 mg/dL</div>
+      </div>
+      <div class="glucose-card">
+        <div class="glucose-title">Antes do almoço</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="80" min="40" max="400" oninput="saveGlucose(&#39;g3&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        <div class="glucose-status" style="color:var(--sage)"></div>
+        <div class="glucose-meta">Meta: &lt; 95 mg/dL</div>
+      </div>
+      <div class="glucose-card">
+        <div class="glucose-title">1h após almoço</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="103" min="40" max="400" oninput="saveGlucose(&#39;g4&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        <div class="glucose-status" style="color:var(--sage)"></div>
+        <div class="glucose-meta">Meta: &lt; 140 mg/dL</div>
+      </div>
+      <div class="glucose-card ">
+        <div class="glucose-title">Antes do jantar</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="" min="40" max="400" oninput="saveGlucose(&#39;g6&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        
+        <div class="glucose-meta">Meta: &lt; 95 mg/dL</div>
+      </div>
+      <div class="glucose-card ">
+        <div class="glucose-title">1h após jantar</div>
+        <div class="glucose-row">
+          <input class="glucose-input" type="number" placeholder="---" value="" min="40" max="400" oninput="saveGlucose(&#39;g5&#39;, this.value)">
+          <span class="glucose-unit">mg/dL</span>
+        </div>
+        
+        <div class="glucose-meta">Meta: &lt; 140 mg/dL</div>
+      </div></div>
 
   <div class="section" style="margin-top:16px;">
     <div class="section-title">📝 Observações</div>
@@ -962,22 +1067,43 @@
     <div class="period-pill" onclick="setPeriod(&#39;all&#39;)" id="pill-all">Tudo</div>
   </div>
 
-  <div class="goal-grid" id="goalGrid"></div>
+  <div class="goal-grid" id="goalGrid">
+    <div class="goal-card great">
+      <div class="goal-card-value">100%</div>
+      <div class="goal-card-label">Glicemias na meta</div>
+      <div class="goal-card-sub">🟢 Ótimo</div>
+    </div>
+    <div class="goal-card bad">
+      <div class="goal-card-value">10%</div>
+      <div class="goal-card-label">Checklist cumprido</div>
+      <div class="goal-card-sub">🔴 Vamos nessa!</div>
+    </div>
+    <div class="goal-card bad">
+      <div class="goal-card-value">5</div>
+      <div class="goal-card-label">Medições feitas</div>
+      <div class="goal-card-sub">Meta: 42 medições</div>
+    </div>
+    <div class="goal-card great">
+      <div class="goal-card-value">100%</div>
+      <div class="goal-card-label">Dias perfeitos</div>
+      <div class="goal-card-sub">Todas glicemias ok</div>
+    </div></div>
 
   <div class="trend-wrap">
     <div class="trend-title">📈 Glicemias — últimos dias</div>
-    <div class="trend-chart" id="glucoseTrend"></div>
+    <div class="trend-chart" id="glucoseTrend"><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">07/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">08/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">09/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">10/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">11/05</div></div><div class="trend-bar-wrap"><div class="trend-bar ok" style="height:14px"></div><div class="trend-label">12/05</div></div><div class="trend-bar-wrap"><div class="trend-bar ok" style="height:56px"></div><div class="trend-label">13/05</div></div></div>
   </div>
 
   <div class="trend-wrap">
     <div class="trend-title">✅ Checklist cumprido — % por dia</div>
-    <div class="trend-chart" id="checklistTrend"></div>
+    <div class="trend-chart" id="checklistTrend"><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">07/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">08/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">09/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">10/05</div></div><div class="trend-bar-wrap"><div class="trend-bar miss" style="height:4px"></div><div class="trend-label">11/05</div></div><div class="trend-bar-wrap"><div class="trend-bar warn" style="height:30px"></div><div class="trend-label">12/05</div></div><div class="trend-bar-wrap"><div class="trend-bar bad" style="height:10px"></div><div class="trend-label">13/05</div></div></div>
   </div>
 
   <button class="send-btn" onclick="sendEmailNow(&#39;daily&#39;)">📧 Enviar resumo de hoje</button>
   <button class="send-btn-secondary" onclick="sendEmailNow(&#39;period&#39;)">📊 Enviar consolidado do período</button>
   <!-- EXPORT PDF (melhoria #4) -->
   <button class="pdf-btn" onclick="exportPDF()">📄 Exportar PDF semanal para consulta</button>
+  <button class="pdf-btn" onclick="exportDayPDF()" id="btnDayPDF" style="border-color:#d4c4f0;color:#7a4ab0;">📋 Exportar PDF — qua., 13 de mai.</button>
 </div>
 
 <!-- ===== ABA GUIA ===== -->
@@ -1324,7 +1450,7 @@ function renderDaily() {
       ${section.items.map(item => {
         const isDone = !!checked[item.id];
         const fVal = fieldVals[item.id] || '';
-        const fieldHtml = isDone && item.field ? `
+        const fieldHtml = item.field ? `
           <div class="item-field-wrap" onclick="event.stopPropagation()">
             <input
               class="item-field-input"
@@ -1367,9 +1493,26 @@ function toggleItem(id) {
 
 function saveFieldVal(id, val) {
   const key = getDateKey(currentDate);
+
+  // Salvar o valor do campo
   const fieldVals = loadState('daily_fields_' + key, {});
   fieldVals[id] = val;
   saveState('daily_fields_' + key, fieldVals);
+
+  // Se digitou algo, marcar o item automaticamente
+  // Se apagou tudo, desmarcar
+  const checked = loadState('daily_' + key, {});
+  const wasChecked = !!checked[id];
+  const shouldBeChecked = val.trim() !== '';
+  if (wasChecked !== shouldBeChecked) {
+    checked[id] = shouldBeChecked;
+    saveState('daily_' + key, checked);
+    // Atualizar progresso sem recriar os inputs (evita perda de foco)
+    const allIds = dailySections.flatMap(s => s.items.map(i => i.id));
+    const doneCount = allIds.filter(i => checked[i]).length;
+    document.getElementById('progressFill').style.width = (doneCount / allIds.length * 100) + '%';
+    document.getElementById('progressLabel').textContent = `${doneCount} / ${allIds.length} feitos`;
+  }
 }
 
 function saveNotes() {
@@ -1388,6 +1531,14 @@ function resetDay() {
 function changeDay(delta) {
   currentDate.setDate(currentDate.getDate() + delta);
   renderDaily();
+  updateDayPDFBtn();
+}
+
+function updateDayPDFBtn() {
+  const btn = document.getElementById('btnDayPDF');
+  if (!btn) return;
+  const label = currentDate.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+  btn.textContent = `📋 Exportar PDF — ${label}`;
 }
 
 // ===== GLICEMIAS =====
@@ -1543,7 +1694,7 @@ function switchTab(name, btn) {
 
   if (name === 'glucose') renderGlucose();
   if (name === 'weekly') renderWeekly();
-  if (name === 'metas') renderMetas();
+  if (name === 'metas') { renderMetas(); updateDayPDFBtn(); }
 }
 
 // ===== EMAIL =====
@@ -1830,7 +1981,194 @@ ${noteRows ? `
   win.addEventListener('afterprint', () => URL.revokeObjectURL(url));
 }
 
-// ===== METAS =====
+// ===== EXPORT PDF DO DIA =====
+function exportDayPDF() {
+  // Flush: capturar qualquer valor que esteja no DOM mas ainda não salvo
+  document.querySelectorAll('.item-field-input').forEach(input => {
+    const match = input.getAttribute('oninput') || '';
+    const idMatch = match.match(/saveFieldVal\('([^']+)'/);
+    if (idMatch && input.value.trim()) saveFieldVal(idMatch[1], input.value);
+  });
+
+  const key = getDateKey(currentDate);
+  const checked   = loadState('daily_'        + key, {});
+  const fieldVals = loadState('daily_fields_' + key, {});
+  const glucose   = loadState('glucose_'      + key, {});
+  const notes     = loadState('notes_'        + key, '');
+
+  // Enriquecer fieldVals com valores de glucose_ para itens de glicemia
+  // (quando preenchido pelo atalho rápido, o valor vai só para glucose_ e não para daily_fields_)
+  glucoseMoments.forEach(m => {
+    if (m.checklistId && glucose[m.id] && !fieldVals[m.checklistId]) {
+      fieldVals[m.checklistId] = glucose[m.id];
+    }
+  });
+
+  const dateStr = currentDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const diffDays  = Math.floor((currentDate - BASE_DATE) / 86400000);
+  const totalDays = BASE_WEEK * 7 + BASE_DAYS + diffDays;
+  const weeks = Math.floor(totalDays / 7);
+  const days  = totalDays % 7;
+
+  const allIds   = dailySections.flatMap(s => s.items.map(i => i.id));
+  const doneCount = allIds.filter(id => checked[id]).length;
+  const pct = Math.round(doneCount / allIds.length * 100);
+
+  // Cores por tag
+  const tagColors = {
+    glucose:  { bg: '#fde8e8', text: '#b04040', label: 'Glicemia'   },
+    meal:     { bg: '#fef3e2', text: '#b07c30', label: 'Refeição'   },
+    activity: { bg: '#e8f4ec', text: '#3a7a50', label: 'Atividade'  },
+    meds:     { bg: '#ede8f4', text: '#5a3a8a', label: 'Medicação'  },
+    care:     { bg: '#e8f0f4', text: '#2a5a7a', label: 'Cuidado'    },
+  };
+
+  // Montar seções do checklist
+  const sectionsHtml = dailySections.map(section => {
+    const sectionEmoji = section.title.split(' ')[0];
+    const sectionName  = section.title.split(' ').slice(1).join(' ');
+
+    const itemsHtml = section.items.map(item => {
+      const isDone  = !!checked[item.id];
+      const fVal    = fieldVals[item.id] || '';
+      const tc      = tagColors[item.tag] || tagColors.care;
+      const labelClean = item.label.replace(/<[^>]+>/g, '');
+
+      // Para glicemias, verificar se está na meta
+      let glucoseStatus = '';
+      if (item.tag === 'glucose' && fVal) {
+        // Encontrar o momento correspondente pelo checklistId
+        const moment = glucoseMoments.find(m => m.checklistId === item.id);
+        if (moment) {
+          const ok = parseFloat(fVal) <= moment.max;
+          glucoseStatus = ok
+            ? `<span style="color:#5a9a70;font-size:9px;font-weight:700;margin-left:6px;">✓ na meta</span>`
+            : `<span style="color:#c05050;font-size:9px;font-weight:700;margin-left:6px;">⚠ acima da meta</span>`;
+        }
+      }
+
+      const fieldHtml = fVal
+        ? `<div style="margin-top:4px;font-size:10px;color:#5a4a4a;background:#f7f2ee;border-radius:5px;padding:4px 8px;display:inline-block;">${fVal}${glucoseStatus}</div>`
+        : '';
+
+      const checkboxHtml = isDone
+        ? `<div style="width:18px;height:18px;border-radius:5px;background:#8aab96;border:2px solid #8aab96;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:white;font-size:10px;font-weight:700;">✓</div>`
+        : `<div style="width:18px;height:18px;border-radius:5px;border:2px solid #e8a0a0;flex-shrink:0;"></div>`;
+
+      return `
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:5px;background:${isDone ? '#eef4f1' : '#ffffff'};border:1px solid ${isDone ? 'rgba(138,171,150,0.3)' : '#f0e4e4'};">
+          ${checkboxHtml}
+          <div style="flex:1;min-width:0;">
+            <span style="font-size:10.5px;color:${isDone ? '#7a6060' : '#2d2020'};${isDone && !fVal ? 'text-decoration:line-through;' : ''}">${labelClean}</span>
+            ${fieldHtml}
+          </div>
+          <span style="font-size:8px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:8px;background:${tc.bg};color:${tc.text};white-space:nowrap;flex-shrink:0;">${tc.label}</span>
+        </div>`;
+    }).join('');
+
+    return `
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:700;color:#2d2020;margin-bottom:8px;padding-bottom:4px;border-bottom:1.5px solid #f0d8d8;display:flex;align-items:center;gap:6px;">
+          <span>${sectionEmoji}</span><span>${sectionName}</span>
+        </div>
+        ${itemsHtml}
+      </div>`;
+  }).join('');
+
+  // Glicemias em destaque
+  const glucoseHighlightsHtml = glucoseMoments.map(m => {
+    const v = glucose[m.id];
+    if (!v) return `
+      <div style="flex:1;min-width:80px;background:#f9f4f4;border-radius:8px;padding:8px;text-align:center;border-top:3px solid #e8d0d0;">
+        <div style="font-size:15px;font-weight:700;color:#c0b0b0;">—</div>
+        <div style="font-size:8px;color:#b0a0a0;margin-top:2px;text-transform:uppercase;letter-spacing:.04em;">${m.shortLabel}</div>
+      </div>`;
+    const ok = parseFloat(v) <= m.max;
+    return `
+      <div style="flex:1;min-width:80px;background:${ok ? '#eef4f1' : '#fde8e8'};border-radius:8px;padding:8px;text-align:center;border-top:3px solid ${ok ? '#8aab96' : '#e07070'};">
+        <div style="font-size:15px;font-weight:700;color:${ok ? '#5a9a70' : '#c05050'};">${v}</div>
+        <div style="font-size:7px;color:${ok ? '#5a9a70' : '#c05050'};font-weight:600;margin-top:1px;">${ok ? '✓ na meta' : '⚠ acima'}</div>
+        <div style="font-size:8px;color:#7a6060;margin-top:2px;text-transform:uppercase;letter-spacing:.04em;">${m.shortLabel}</div>
+      </div>`;
+  }).join('');
+
+  // Progresso
+  const progressColor = pct >= 80 ? '#8aab96' : pct >= 50 ? '#c4a265' : '#c97b7b';
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Diário do Dia — ${dateStr}</title>
+<style>
+  @page { size: A4; margin: 14mm 16mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 11px; color: #2d2020; background: white; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<div style="background:linear-gradient(135deg,#c97b7b,#c4a265);color:white;padding:14px 18px;border-radius:8px;margin-bottom:14px;">
+  <div style="font-size:8px;opacity:.8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Diário da Gestação — Diabetes Gestacional</div>
+  <div style="font-size:15px;font-weight:700;margin-bottom:2px;">${dateStr}</div>
+  <div style="font-size:10px;opacity:.9;">🤰 ${weeks} semanas e ${days} dias de gestação</div>
+</div>
+
+<!-- Progresso -->
+<div style="background:#f9eded;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
+  <div style="flex:1;">
+    <div style="height:8px;background:rgba(200,120,120,.2);border-radius:4px;overflow:hidden;">
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,${progressColor},#c4a265);border-radius:4px;"></div>
+    </div>
+  </div>
+  <div style="font-size:11px;font-weight:600;color:${progressColor};white-space:nowrap;">${doneCount} / ${allIds.length} itens · ${pct}%</div>
+</div>
+
+<!-- Glicemias em destaque -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;color:#c97b7b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">🩸 Glicemias do dia</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    ${glucoseHighlightsHtml}
+  </div>
+  <div style="margin-top:6px;font-size:8px;color:#7a6060;background:#eef4f1;border-radius:5px;padding:5px 10px;">
+    <strong style="color:#5a9a70;">Metas:</strong> Jejum / Pré-refeição &lt; 95 mg/dL · 1h pós-refeição &lt; 140 mg/dL
+  </div>
+</div>
+
+<!-- Checklist -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;color:#c97b7b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">✅ Checklist do dia</div>
+  ${sectionsHtml}
+</div>
+
+${notes ? `
+<!-- Notas -->
+<div style="margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;color:#c97b7b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">📝 Notas</div>
+  <div style="background:#f9f4f0;border-radius:8px;padding:10px 12px;font-size:10.5px;color:#5a4a4a;line-height:1.6;border-left:3px solid #c4a265;">${notes}</div>
+</div>` : ''}
+
+<!-- Rodapé -->
+<div style="margin-top:16px;font-size:8px;color:#b0a0a0;text-align:center;border-top:1px solid #ece0e0;padding-top:8px;">
+  Diário da Gestação — Diabetes Gestacional &nbsp;|&nbsp; ${dateStr}
+</div>
+
+<script>window.onload = function() { window.print(); }<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const win  = window.open(url, '_blank');
+  if (!win) {
+    alert('Popup bloqueado! Permita popups para este site e tente novamente.');
+    URL.revokeObjectURL(url);
+    return;
+  }
+  win.addEventListener('afterprint', () => URL.revokeObjectURL(url));
+}
 let activePeriod = 'week';
 
 function setPeriod(p) {
@@ -1930,7 +2268,7 @@ function checkAutoSend() {
 // ===== INIT =====
 renderDaily();
 loadEmail();
-// Atualizar lembrete de glicemia a cada minuto
+updateDayPDFBtn();
 setInterval(renderQuickGlucose, 60000);
 </script>
 
